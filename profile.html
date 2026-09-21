@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>NexaAssist | Assistant Profile</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      color: #172033;
+      line-height: 1.6;
+    }
+
+    header {
+      background: white;
+      padding: 18px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+    }
+
+    .logo {
+      color: #1769e0;
+      text-decoration: none;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #344054;
+      font-weight: 600;
+    }
+
+    .hire-nav {
+      background: #1769e0;
+      color: white;
+      padding: 10px 17px;
+      border-radius: 8px;
+    }
+
+    .profile-container {
+      max-width: 1000px;
+      margin: 55px auto;
+      padding: 0 20px;
+    }
+
+    .profile-card {
+      background: white;
+      border-radius: 18px;
+      padding: 40px;
+      box-shadow: 0 7px 25px rgba(0,0,0,0.07);
+    }
+
+    .profile-top {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #edf0f5;
+    }
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: #e7f0ff;
+      color: #1769e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      font-weight: bold;
+    }
+
+    .verified {
+      display: inline-block;
+      background: #eaf7ee;
+      color: #16803c;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .profile-top h1 {
+      font-size: 36px;
+      margin-bottom: 5px;
+    }
+
+    .role {
+      color: #1769e0;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .location {
+      color: #667085;
+      margin-top: 5px;
+    }
+
+    .profile-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 35px;
+      padding-top: 35px;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section h2 {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .section p {
+      color: #667085;
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .skill {
+      background: #eef5ff;
+      color: #1769e0;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .services {
+      list-style: none;
+    }
+
+    .services li {
+      padding: 7px 0;
+      color: #667085;
+    }
+
+    .services li::before {
+      content: "✓";
+      color: #1769e0;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .price-box {
+      background: #f7f9fc;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .price {
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .price-note {
+      color: #667085;
+      font-size: 14px;
+    }
+
+    .hire-button {
+      display: block;
+      text-align: center;
+      background: #1769e0;
+      color: white;
+      text-decoration: none;
+      padding: 15px;
+      border-radius: 9px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    .back-button {
+      display: block;
+      text-align: center;
+      color: #1769e0;
+      text-decoration: none;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    footer {
+      background: #111827;
+      color: #d0d5dd;
+      text-align: center;
+      padding: 40px 7%;
+    }
+
+    .footer-logo {
+      color: white;
+      font-size: 23px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    footer p {
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+
+      header {
+        padding: 16px 5%;
+      }
+
+      nav {
+        gap: 9px;
+      }
+
+      nav a {
+        font-size: 12px;
+      }
+
+      .profile-container {
+        margin: 35px auto;
+      }
+
+      .profile-card {
+        padding: 25px;
+      }
+
+      .profile-top {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .profile-top h1 {
+        font-size: 30px;
+      }
+
+      .profile-content {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <header>
+
+    <a href="index.html" class="logo">
+      NexaAssist
+    </a>
+
+    <nav>
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="assistants.html">
+        Assistants
+      </a>
+
+      <a href="contact.html">
+        Contact
+      </a>
+
+      <a href="login.html">
+        Login
+      </a>
+
+      <a href="hire.html" class="hire-nav">
+        Hire Now
+      </a>
+
+    </nav>
+
+  </header>
+
+
+  <main class="profile-container">
+
+    <div class="profile-card">
+
+
+      <div class="profile-top">
+
+        <div class="avatar" id="avatar">
+          AM
+        </div>
+
+        <div>
+
+          <h1 id="name">
+            Alex Morgan
+          </h1>
+
+          <div class="role" id="role">
+            Research Assistant
+          </div>
+
+          <div class="location">
+            Virtual • Remote
+          </div>
+
+          <div class="verified">
+            ✓ NexaAssist Verified
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="profile-content">
+
+
+        <div>
+
+
+          <div class="section">
+
+            <h2>
+              About
+            </h2>
+
+            <p id="about">
+              Alex helps businesses save time by handling
+              online research, information gathering,
+              organization and other digital tasks.
+            </p>
+
+          </div>
+
+
+          <div class="section">
+
+            <h2>
+              Skills
+            </h2>
+
+            <div class="skills" id="skills"></div>
+
+          </div>
+
+
+          <div class="section">
+
+            <h2>
+              Services
+            </h2>
+
+            <ul class="services" id="services"></ul>
+
+          </div>
+
+
+        </div>
+
+
+        <div>
+
+
+          <div class="section">
+
+            <h2>
+              Pricing
+            </h2>
+
+            <div class="price-box">
+
+              <div class="price" id="price">
+                From $5 / hour
+              </div>
+
+              <div class="price-note">
+                Starting rate
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="section">
+
+            <h2>
+              Availability
+            </h2>
+
+            <p>
+              Available for remote business tasks
+              and flexible project-based assistance.
+            </p>
+
+          </div>
+
+
+          <div class="section">
+
+            <h2>
+              Ready to work together?
+            </h2>
+
+            <p>
+              Tell NexaAssist what you need help with
+              and submit a hiring request.
+            </p>
+
+            <a href="hire.html" class="hire-button">
+              Hire This Assistant
+            </a>
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+
+      <a href="assistants.html" class="back-button">
+        ← Back to Assistants
+      </a>
+
+
+    </div>
+
+  </main>
+
+
+  <footer>
+
+    <div class="footer-logo">
+      NexaAssist
+    </div>
+
+    <p>
+      Reliable virtual assistance for growing businesses.
+    </p>
+
+    <p>
+      © 2026 NexaAssist. All rights reserved.
+    </p>
+
+  </footer>
+
+
+  <script>
+
+    const assistants = {
+
+      alex: {
+        name: "Alex Morgan",
+        initials: "AM",
+        role: "Research Assistant",
+        price: "$5 / hour",
+        about: "Alex helps businesses save time by handling online research, information gathering, organization and other digital tasks.",
+        skills: [
+          "Online Research",
+          "Data Organization",
+          "Web Research",
+          "Google Workspace"
+        ],
+        services: [
+          "Online research",
+          "Information gathering",
+          "Data organization",
+          "Business research",
+          "Administrative support"
+        ]
+      },
+
+      sophia: {
+        name: "Sophia James",
+        initials: "SJ",
+        role: "Customer Support Assistant",
+        price: "$7 / hour",
+        about: "Sophia helps businesses communicate with customers and manage everyday customer support tasks.",
+        skills: [
+          "Customer Support",
+          "Email Support",
+          "Communication",
+          "Customer Service"
+        ],
+        services: [
+          "Customer questions",
+          "Email support",
+          "Customer follow-up",
+          "Support organization",
+          "Communication assistance"
+        ]
+      },
+
+      daniel: {
+        name: "Daniel Carter",
+        initials: "DC",
+        role: "Content Assistant",
+        price: "$8 / hour",
+        about: "Daniel supports businesses with content organization, writing assistance and everyday digital content tasks.",
+        skills: [
+          "Content Writing",
+          "Content Organization",
+          "Research",
+          "Social Media"
+        ],
+        services: [
+          "Content organization",
+          "Writing assistance",
+          "Content research",
+          "Social media support",
+          "Digital tasks"
+        ]
+      },
+
+      emma: {
+        name: "Emma Wilson",
+        initials: "EW",
+        role: "Administrative Assistant",
+        price: "$6 / hour",
+        about: "Emma helps businesses stay organized through scheduling, documentation and everyday administrative support.",
+        skills: [
+          "Administration",
+          "Scheduling",
+          "Organization",
+          "Documentation"
+        ],
+        services: [
+          "Scheduling",
+          "Document organization",
+          "Administrative tasks",
+          "Calendar assistance",
+          "Business organization"
+        ]
+      },
+
+      liam: {
+        name: "Liam Brooks",
+        initials: "LB",
+        role: "Data Assistant",
+        price: "$5 / hour",
+        about: "Liam helps businesses organize information, manage data and complete routine digital information tasks.",
+        skills: [
+          "Data Entry",
+          "Data Organization",
+          "Spreadsheets",
+          "Information Management"
+        ],
+        services: [
+          "Data entry",
+          "Data organization",
+          "Spreadsheet work",
+          "Information management",
+          "Digital tasks"
+        ]
+      },
+
+      olivia: {
+        name: "Olivia Reed",
+        initials: "OR",
+        role: "Personal Assistant",
+        price: "$6 / hour",
+        about: "Olivia supports busy professionals with organization, scheduling and everyday digital business tasks.",
+        skills: [
+          "Personal Assistance",
+          "Scheduling",
+          "Organization",
+          "Administrative Support"
+        ],
+        services: [
+          "Scheduling",
+          "Organization",
+          "Calendar assistance",
+          "Administrative support",
+          "Everyday digital tasks"
+        ]
+      }
+
+    };
+
+
+    const params = new URLSearchParams(window.location.search);
+
+    const assistantName = params.get("assistant") || "alex";
+
+    const assistant = assistants[assistantName] || assistants.alex;
+
+
+    document.getElementById("avatar").textContent = assistant.initials;
+
+    document.getElementById("name").textContent = assistant.name;
+
+    document.getElementById("role").textContent = assistant.role;
+
+    document.getElementById("price").textContent =
+      "From " + assistant.price;
+
+    document.getElementById("about").textContent = assistant.about;
+
+
+    const skillsContainer = document.getElementById("skills");
+
+    assistant.skills.forEach(function(skill) {
+
+      const span = document.createElement("span");
+
+      span.className = "skill";
+
+      span.textContent = skill;
+
+      skillsContainer.appendChild(span);
+
+    });
+
+
+    const servicesContainer = document.getElementById("services");
+
+    assistant.services.forEach(function(service) {
+
+      const li = document.createElement("li");
+
+      li.textContent = service;
+
+      servicesContainer.appendChild(li);
+
+    });
+
+  </script>
+
+
+</body>
+
+</html>

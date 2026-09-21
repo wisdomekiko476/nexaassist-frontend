@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>NexaAssist | Reliable Virtual Business Assistance</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f7f9fc;
+      color: #172033;
+      line-height: 1.6;
+    }
+
+    /* HEADER */
+
+    header {
+      background: #ffffff;
+      padding: 18px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      color: #1769e0;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #344054;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #1769e0;
+    }
+
+    .nav-button {
+      background: #1769e0;
+      color: white !important;
+      padding: 11px 18px;
+      border-radius: 8px;
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: 620px;
+      display: flex;
+      align-items: center;
+      padding: 80px 7%;
+      background: linear-gradient(135deg, #eef5ff, #ffffff);
+    }
+
+    .hero-content {
+      max-width: 720px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #e4efff;
+      color: #1769e0;
+      padding: 8px 14px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: 55px;
+      line-height: 1.1;
+      margin-bottom: 22px;
+      letter-spacing: -1px;
+    }
+
+    .hero h1 span {
+      color: #1769e0;
+    }
+
+    .hero p {
+      font-size: 19px;
+      color: #667085;
+      max-width: 650px;
+      margin-bottom: 32px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .primary-button,
+    .secondary-button {
+      display: inline-block;
+      text-decoration: none;
+      padding: 14px 24px;
+      border-radius: 9px;
+      font-weight: bold;
+    }
+
+    .primary-button {
+      background: #1769e0;
+      color: white;
+    }
+
+    .secondary-button {
+      background: white;
+      color: #1769e0;
+      border: 1px solid #1769e0;
+    }
+
+    /* TRUST */
+
+    .trust {
+      background: white;
+      padding: 25px 7%;
+      text-align: center;
+      border-bottom: 1px solid #edf0f5;
+    }
+
+    .trust p {
+      color: #667085;
+      font-size: 15px;
+    }
+
+    /* SECTION */
+
+    section {
+      padding: 80px 7%;
+    }
+
+    .section-heading {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 45px;
+    }
+
+    .section-heading h2 {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+
+    .section-heading p {
+      color: #667085;
+    }
+
+    /* SERVICES */
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .service-card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+      border: 1px solid #edf0f5;
+    }
+
+    .service-icon {
+      width: 55px;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #eaf2ff;
+      color: #1769e0;
+      border-radius: 12px;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .service-card h3 {
+      margin-bottom: 10px;
+      font-size: 21px;
+    }
+
+    .service-card p {
+      color: #667085;
+    }
+
+    /* HOW IT WORKS */
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .step {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      border: 1px solid #edf0f5;
+    }
+
+    .step-number {
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      background: #1769e0;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .step h3 {
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      color: #667085;
+    }
+
+    /* CTA */
+
+    .cta {
+      background: #1769e0;
+      color: white;
+      text-align: center;
+      border-radius: 20px;
+      margin: 30px 7% 80px;
+      padding: 65px 25px;
+    }
+
+    .cta h2 {
+      font-size: 36px;
+      margin-bottom: 15px;
+    }
+
+    .cta p {
+      max-width: 650px;
+      margin: 0 auto 25px;
+      opacity: 0.9;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: white;
+      color: #1769e0;
+      text-decoration: none;
+      padding: 14px 25px;
+      border-radius: 9px;
+      font-weight: bold;
+    }
+
+    /* FOOTER */
+
+    footer {
+      background: #111827;
+      color: #d0d5dd;
+      padding: 40px 7%;
+      text-align: center;
+    }
+
+    footer .footer-logo {
+      color: white;
+      font-size: 23px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    footer p {
+      font-size: 14px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 800px) {
+
+      header {
+        padding: 16px 5%;
+      }
+
+      nav {
+        gap: 12px;
+      }
+
+      nav a {
+        font-size: 13px;
+      }
+
+      .hero {
+        padding: 65px 5%;
+        min-height: 560px;
+      }
+
+      .hero h1 {
+        font-size: 40px;
+      }
+
+      .hero p {
+        font-size: 17px;
+      }
+
+      section {
+        padding: 60px 5%;
+      }
+
+      .services,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading h2,
+      .cta h2 {
+        font-size: 30px;
+      }
+
+      .cta {
+        margin: 20px 5% 60px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+
+  <header>
+
+    <a href="index.html" class="logo">
+      NexaAssist
+    </a>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="assistants.html">Assistants</a>
+      <a href="contact.html">Contact</a>
+      <a href="hire.html" class="nav-button">Hire Now</a>
+    </nav>
+
+  </header>
+
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <div class="badge">
+        Reliable Virtual Business Assistance
+      </div>
+
+      <h1>
+        Get more done with a
+        <span>reliable assistant.</span>
+      </h1>
+
+      <p>
+        NexaAssist connects growing businesses with
+        reliable Nigerian virtual assistants who can
+        help with everyday digital tasks, customer
+        support, research and more.
+      </p>
+
+      <div class="hero-buttons">
+
+        <a href="assistants.html" class="primary-button">
+          Find an Assistant
+        </a>
+
+        <a href="#how-it-works" class="secondary-button">
+          How It Works
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- TRUST -->
+
+  <div class="trust">
+
+    <p>
+      Flexible assistance • Remote support • Simple hiring
+    </p>
+
+  </div>
+
+
+  <!-- SERVICES -->
+
+  <section>
+
+    <div class="section-heading">
+
+      <h2>
+        What can NexaAssist help with?
+      </h2>
+
+      <p>
+        Get practical digital support without the
+        complexity of traditional hiring.
+      </p>
+
+    </div>
+
+
+    <div class="services">
+
+      <div class="service-card">
+
+        <div class="service-icon">
+          VA
+        </div>
+
+        <h3>
+          Virtual Assistance
+        </h3>
+
+        <p>
+          Get help with administrative tasks,
+          research, organization, scheduling and
+          everyday business support.
+        </p>
+
+      </div>
+
+
+      <div class="service-card">
+
+        <div class="service-icon">
+          CS
+        </div>
+
+        <h3>
+          Customer Support
+        </h3>
+
+        <p>
+          Provide customers with responsive
+          assistance and help manage everyday
+          support tasks.
+        </p>
+
+      </div>
+
+
+      <div class="service-card">
+
+        <div class="service-icon">
+          SM
+        </div>
+
+        <h3>
+          Social Media Assistance
+        </h3>
+
+        <p>
+          Get support with social media tasks,
+          content organization and day-to-day
+          account assistance.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- HOW IT WORKS -->
+
+  <section id="how-it-works">
+
+    <div class="section-heading">
+
+      <h2>
+        How NexaAssist works
+      </h2>
+
+      <p>
+        Getting the support you need can be simple.
+      </p>
+
+    </div>
+
+
+    <div class="steps">
+
+      <div class="step">
+
+        <div class="step-number">
+          1
+        </div>
+
+        <h3>
+          Choose your service
+        </h3>
+
+        <p>
+          Tell us what type of assistance your
+          business needs.
+        </p>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="step-number">
+          2
+        </div>
+
+        <h3>
+          Meet an assistant
+        </h3>
+
+        <p>
+          Browse available assistants and find
+          someone suitable for your task.
+        </p>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="step-number">
+          3
+        </div>
+
+        <h3>
+          Submit your request
+        </h3>
+
+        <p>
+          Send your hiring request and let NexaAssist
+          help coordinate the next step.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- CTA -->
+
+  <div class="cta">
+
+    <h2>
+      Ready to get started?
+    </h2>
+
+    <p>
+      Find a reliable assistant for your next
+      business task.
+    </p>
+
+    <a href="hire.html" class="cta-button">
+      Hire an Assistant
+    </a>
+
+  </div>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="footer-logo">
+      NexaAssist
+    </div>
+
+    <p>
+      Reliable virtual assistance for growing businesses.
+    </p>
+
+    <p>
+      © 2026 NexaAssist. All rights reserved.
+    </p>
+
+  </footer>
+
+</body>
+
+</html>

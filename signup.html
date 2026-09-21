@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | NexaAssist</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f9ff;
+      color: #172033;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5eaf2;
+      padding: 18px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      color: #1769e0;
+      font-size: 24px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .home-link {
+      color: #1769e0;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .container {
+      min-height: calc(100vh - 70px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .signup-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 460px;
+      padding: 35px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 30px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #687386;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d7deea;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #1769e0;
+    }
+
+    .signup-btn {
+      width: 100%;
+      padding: 15px;
+      background: #1769e0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .signup-btn:hover {
+      background: #1257bd;
+    }
+
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 22px;
+      color: #687386;
+    }
+
+    .login-link a {
+      color: #1769e0;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 18px;
+      color: #687386;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 16px 5%;
+      }
+
+      .signup-card {
+        padding: 25px 20px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <a href="index.html" class="logo">NexaAssist</a>
+    <a href="index.html" class="home-link">Home</a>
+  </header>
+
+  <main class="container">
+
+    <div class="signup-card">
+
+      <h1>Create Account</h1>
+
+      <p class="subtitle">
+        Create your NexaAssist account and get started.
+      </p>
+
+      <form id="signupForm">
+
+        <label for="name">Full Name</label>
+        <input
+          type="text"
+          id="name"
+          placeholder="Enter your full name"
+          required
+        >
+
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          required
+        >
+
+        <label for="role">I want to</label>
+        <select id="role" required>
+          <option value="">Select an option</option>
+          <option value="client">Hire a Virtual Assistant</option>
+          <option value="assistant">Become a Virtual Assistant</option>
+        </select>
+
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Create a password"
+          required
+        >
+
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          placeholder="Confirm your password"
+          required
+        >
+
+        <button type="submit" class="signup-btn">
+          Create Account
+        </button>
+
+        <div id="message" class="message"></div>
+
+      </form>
+
+      <p class="login-link">
+        Already have an account?
+        <a href="login.html">Login</a>
+      </p>
+
+      <a href="index.html" class="back-link">
+        ← Back to NexaAssist
+      </a>
+
+    </div>
+
+  </main>
+
+  <script>
+    const signupForm = document.getElementById("signupForm");
+    const message = document.getElementById("message");
+
+    signupForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        message.style.display = "block";
+        message.style.background = "#ffe8e8";
+        message.style.color = "#c62828";
+        message.textContent = "Passwords do not match.";
+        return;
+      }
+
+      message.style.display = "block";
+      message.style.background = "#e8f7ee";
+      message.style.color = "#18794e";
+      message.textContent =
+        "Account form completed. Account creation will work when the backend is connected.";
+    });
+  </script>
+
+</body>
+</html>
