@@ -135,60 +135,115 @@
 
     <div class="welcome">
       <h2>Welcome, <span id="userName">Customer</span>!</h2>
-      <p>Manage your virtual assistant requests from your dashboard.</p>
 
-      <a href="assistants.html" class="button">Find Assistants</a>
-      <button class="button logout" onclick="logout()">Logout</button>
+      <p>
+        Manage your virtual assistant requests from your dashboard.
+      </p>
+
+      <a href="assistants.html" class="button">
+        Find Assistants
+      </a>
+
+      <button class="button logout" onclick="logout()">
+        Logout
+      </button>
     </div>
+
 
     <div class="cards">
 
       <div class="card">
         <h3>Find an Assistant</h3>
-        <p>Browse Nigerian virtual assistants and find someone who matches your needs.</p>
-        <a href="assistants.html" class="button">Browse Assistants</a>
+
+        <p>
+          Browse Nigerian virtual assistants and find someone who matches
+          your needs.
+        </p>
+
+        <a href="assistants.html" class="button">
+          Browse Assistants
+        </a>
       </div>
+
 
       <div class="card">
         <h3>Post a Job</h3>
-        <p>Create a job request and let suitable assistants respond to your needs.</p>
-        <button class="button" onclick="comingSoon()">Post a Job</button>
+
+        <p>
+          Create a job request and let suitable assistants respond to your needs.
+        </p>
+
+        <a href="post-job.html" class="button">
+          Post a Job
+        </a>
       </div>
+
 
       <div class="card">
         <h3>My Requests</h3>
-        <p>View your hiring requests and track their progress.</p>
-        <button class="button" onclick="comingSoon()">View Requests</button>
+
+        <p>
+          View your hiring requests and track their progress.
+        </p>
+
+        <button class="button" onclick="comingSoon()">
+          View Requests
+        </button>
       </div>
+
 
       <div class="card">
         <h3>Messages</h3>
-        <p>Communicate with assistants about your work and hiring requests.</p>
-        <button class="button" onclick="comingSoon()">Open Messages</button>
+
+        <p>
+          Communicate with assistants about your work and hiring requests.
+        </p>
+
+        <button class="button" onclick="comingSoon()">
+          Open Messages
+        </button>
       </div>
 
     </div>
 
+
     <div class="account">
+
       <h3>My Account</h3>
 
-      <p><strong>Name:</strong> <span id="accountName">Loading...</span></p>
-      <p><strong>Email:</strong> <span id="accountEmail">Loading...</span></p>
-      <p><strong>Account Type:</strong> Customer</p>
+      <p>
+        <strong>Name:</strong>
+        <span id="accountName">Loading...</span>
+      </p>
+
+      <p>
+        <strong>Email:</strong>
+        <span id="accountEmail">Loading...</span>
+      </p>
+
+      <p>
+        <strong>Account Type:</strong>
+        Customer
+      </p>
+
     </div>
 
   </div>
 
+
   <footer>
     © 2026 NexaAssist. All rights reserved.
   </footer>
+
 
   <script>
 
     const userData = localStorage.getItem("nexaassistUser");
 
     if (!userData) {
+
       window.location.href = "login.html";
+
     } else {
 
       const user = JSON.parse(userData);
@@ -203,16 +258,25 @@
         user.email || "Not available";
     }
 
+
     function logout() {
+
       localStorage.removeItem("nexaassistUser");
+
       window.location.href = "login.html";
     }
 
+
     function comingSoon() {
-      alert("This feature will be connected to the NexaAssist backend next.");
+
+      alert(
+        "This feature will be connected to the NexaAssist backend next."
+      );
+
     }
 
   </script>
 
 </body>
 </html>
+        
