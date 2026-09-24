@@ -216,17 +216,19 @@
 </head>
 
 <body>
-  <header><a href="index.html" class="logo">
+  <header>
+    <a href="index.html" class="logo">
       NexaAssist
     </a>
+
     <nav>
       <a href="index.html">Home</a>
       <a href="assistants.html">Assistants</a>
       <a href="contact.html">Contact</a>
       <a href="hire.html" class="nav-button">Hire Now</a>
     </nav>
-
   </header>
+
   <section class="hero">
     <h1>Hire a Virtual Assistant</h1>
     <p>
@@ -234,10 +236,11 @@
       We'll review your request and help connect you
       with a suitable assistant.
     </p>
-
   </section>
+
   <main class="form-container">
     <form id="hireForm">
+
       <h2 class="section-title">
         1. Your Information
       </h2>
@@ -256,7 +259,6 @@
         <label for="business">Business Name</label>
         <input type="text" id="business" placeholder="Your business name" required>
       </div>
-
 
       <h2 class="section-title">
         2. What Do You Need?
@@ -298,7 +300,6 @@
         </select>
       </div>
 
-
       <h2 class="section-title">
         3. Assistant Preference
       </h2>
@@ -317,7 +318,6 @@
         </select>
       </div>
 
-
       <h2 class="section-title">
         4. Describe Your Task
       </h2>
@@ -327,7 +327,6 @@
 
         <textarea id="message" placeholder="Describe the work you need help with..." required></textarea>
       </div>
-
 
       <button type="submit" id="submitButton">
         Submit Hiring Request
@@ -346,12 +345,13 @@
       </p>
 
     </form>
-
   </main>
+
   <footer>
     <div class="footer-logo">
       NexaAssist
     </div>
+
     <p>
       Reliable virtual assistance for growing businesses.
     </p>
@@ -359,91 +359,94 @@
     <p>
       © 2026 NexaAssist. All rights reserved.
     </p>
-
   </footer>
-  <script>  const hireForm = document.getElementById("hireForm");  
 
-hireForm.addEventListener("submit", async function(event) {  
+  <script>
+    const hireForm = document.getElementById("hireForm");
 
-  event.preventDefault();  
+    hireForm.addEventListener("submit", async function(event) {
 
-  const submitButton = document.getElementById("submitButton");  
-  const successMessage = document.getElementById("successMessage");  
-  const errorMessage = document.getElementById("errorMessage");  
+      event.preventDefault();
 
-  successMessage.style.display = "none";  
-  errorMessage.style.display = "none";  
+      const submitButton = document.getElementById("submitButton");
+      const successMessage = document.getElementById("successMessage");
+      const errorMessage = document.getElementById("errorMessage");
 
-  submitButton.disabled = true;  
-  submitButton.textContent = "Submitting...";  
+      successMessage.style.display = "none";
+      errorMessage.style.display = "none";
 
-  const name = document.getElementById("name").value;  
-  const email = document.getElementById("email").value;  
-  const business = document.getElementById("business").value;  
-  const service = document.getElementById("service").value;  
-  const workType = document.getElementById("workType").value;  
-  const budget = document.getElementById("budget").value;  
-  const preference = document.getElementById("preference").value;  
-  const message = document.getElementById("message").value;  
+      submitButton.disabled = true;
+      submitButton.textContent = "Submitting...";
 
-  const fullMessage =  
-    "Business Name: " + business +  
-    "\nWork Type: " + workType +  
-    "\nBudget: " + budget +  
-    "\nPreferred Assistant: " + preference +  
-    "\n\nTask:\n" + message;  
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const business = document.getElementById("business").value;
+      const service = document.getElementById("service").value;
+      const workType = document.getElementById("workType").value;
+      const budget = document.getElementById("budget").value;
+      const preference = document.getElementById("preference").value;
+      const message = document.getElementById("message").value;
 
-  try {  
+      const fullMessage =
+        "Business Name: " + business +
+        "\nWork Type: " + workType +
+        "\nBudget: " + budget +
+        "\nPreferred Assistant: " + preference +
+        "\n\nTask:\n" + message;
 
-    const response = await fetch(  
-      ""https://nexaassist-backend-new-1.onrender.com/hire", 
-      {  
-        method: "POST",  
+      try {
 
-        headers: {  
-          "Content-Type": "application/json"  
-        },  
+        const response = await fetch(
+          "https://nexaassist-backend-new-1.onrender.com/hire",
+          {
+            method: "POST",
 
-        body: JSON.stringify({  
-          name: name,  
-          email: email,  
-          service: service,  
-          message: fullMessage  
-        })  
-      }  
-    );  
+            headers: {
+              "Content-Type": "application/json"
+            },
 
-    const data = await response.json();  
+            body: JSON.stringify({
+              name: name,
+              email: email,
+              service: service,
+              message: fullMessage
+            })
+          }
+        );
 
-    if (response.ok) {  
+        const data = await response.json();
 
-      successMessage.style.display = "block";  
+        if (response.ok) {
 
-      hireForm.reset();  
+          successMessage.style.display = "block";
 
-      submitButton.disabled = false;  
-      submitButton.textContent = "Submit Hiring Request";  
+          hireForm.reset();
 
-    } else {  
+          submitButton.disabled = false;
+          submitButton.textContent = "Submit Hiring Request";
 
-      throw new Error(data.message || "Request failed");  
+        } else {
 
-    }  
+          throw new Error(data.message || "Request failed");
 
-  } catch (error) {  
+        }
 
-    console.error(error);  
+      } catch (error) {
 
-    errorMessage.style.display = "block";  
+        console.error(error);
 
-    submitButton.disabled = false;  
-    submitButton.textContent = "Submit Hiring Request";  
+        errorMessage.style.display = "block";
 
-  }  
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit Hiring Request";
 
-});
+      }
 
+    });
   </script>
 </body>
 
 </html>
+      
+
+   
