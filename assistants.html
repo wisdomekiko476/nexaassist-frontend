@@ -1,0 +1,608 @@
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>NexaAssist | Assistants</title>    <style>  
+    * {  
+      box-sizing: border-box;  
+      margin: 0;  
+      padding: 0;  
+    }  
+  
+    body {  
+      font-family: Arial, sans-serif;  
+      background: #f7f9fc;  
+      color: #172033;  
+      line-height: 1.6;  
+    }  
+  
+    header {  
+      background: white;  
+      padding: 18px 7%;  
+      display: flex;  
+      justify-content: space-between;  
+      align-items: center;  
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);  
+    }  
+  
+    .logo {  
+      color: #1769e0;  
+      text-decoration: none;  
+      font-size: 25px;  
+      font-weight: bold;  
+    }  
+  
+    nav {  
+      display: flex;  
+      align-items: center;  
+      gap: 20px;  
+    }  
+  
+    nav a {  
+      text-decoration: none;  
+      color: #344054;  
+      font-weight: 600;  
+    }  
+  
+    .hire-nav {  
+      background: #1769e0;  
+      color: white;  
+      padding: 10px 16px;  
+      border-radius: 8px;  
+    }  
+  
+    .page-header {  
+      text-align: center;  
+      padding: 65px 20px 40px;  
+      background: linear-gradient(135deg, #eef5ff, #ffffff);  
+    }  
+  
+    .page-header h1 {  
+      font-size: 42px;  
+      margin-bottom: 12px;  
+    }  
+  
+    .page-header p {  
+      color: #667085;  
+      max-width: 650px;  
+      margin: auto;  
+      font-size: 17px;  
+    }  
+  
+    .search-container {  
+      max-width: 700px;  
+      margin: 35px auto;  
+      padding: 0 20px;  
+    }  
+  
+    .search-input {  
+      width: 100%;  
+      padding: 15px;  
+      border: 1px solid #d0d5dd;  
+      border-radius: 9px;  
+      font-size: 16px;  
+      outline: none;  
+    }  
+  
+    .search-input:focus {  
+      border-color: #1769e0;  
+    }  
+  
+    .assistants {  
+      max-width: 1150px;  
+      margin: 0 auto;  
+      padding: 0 20px 70px;  
+    }  
+  
+    .assistant-count {  
+      color: #667085;  
+      margin-bottom: 20px;  
+      font-weight: bold;  
+    }  
+  
+    .cards {  
+      display: grid;  
+      grid-template-columns: repeat(3, 1fr);  
+      gap: 25px;  
+    }  
+  
+    .card {  
+      background: white;  
+      border: 1px solid #e9edf3;  
+      border-radius: 16px;  
+      padding: 28px;  
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);  
+    }  
+  
+    .avatar {  
+      width: 70px;  
+      height: 70px;  
+      border-radius: 50%;  
+      background: #e7f0ff;  
+      color: #1769e0;  
+      display: flex;  
+      justify-content: center;  
+      align-items: center;  
+      font-size: 23px;  
+      font-weight: bold;  
+      margin-bottom: 18px;  
+    }  
+  
+    .verified {  
+      display: inline-block;  
+      background: #eaf7ee;  
+      color: #16803c;  
+      padding: 5px 9px;  
+      border-radius: 20px;  
+      font-size: 12px;  
+      font-weight: bold;  
+      margin-bottom: 12px;  
+    }  
+  
+    .card h2 {  
+      font-size: 21px;  
+      margin-bottom: 5px;  
+    }  
+  
+    .role {  
+      color: #1769e0;  
+      font-weight: bold;  
+      margin-bottom: 12px;  
+    }  
+  
+    .description {  
+      color: #667085;  
+      min-height: 72px;  
+      margin-bottom: 15px;  
+    }  
+  
+    .price {  
+      font-weight: bold;  
+      font-size: 17px;  
+      margin-bottom: 18px;  
+    }  
+  
+    .buttons {  
+      display: flex;  
+      gap: 10px;  
+    }  
+  
+    .buttons a {  
+      flex: 1;  
+      text-align: center;  
+      text-decoration: none;  
+      padding: 11px 8px;  
+      border-radius: 8px;  
+      font-weight: bold;  
+      font-size: 14px;  
+    }  
+  
+    .profile-button {  
+      background: #eaf2ff;  
+      color: #1769e0;  
+    }  
+  
+    .hire-button {  
+      background: #1769e0;  
+      color: white;  
+    }  
+  
+    .no-results {  
+      display: none;  
+      text-align: center;  
+      color: #667085;  
+      padding: 30px;  
+    }  
+  
+    footer {  
+      background: #111827;  
+      color: #d0d5dd;  
+      text-align: center;  
+      padding: 40px 7%;  
+    }  
+  
+    .footer-logo {  
+      color: white;  
+      font-size: 23px;  
+      font-weight: bold;  
+      margin-bottom: 8px;  
+    }  
+  
+    footer p {  
+      font-size: 14px;  
+    }  
+  
+    @media (max-width: 900px) {  
+      .cards {  
+        grid-template-columns: repeat(2, 1fr);  
+      }  
+    }  
+  
+    @media (max-width: 650px) {  
+      header {  
+        padding: 16px 5%;  
+      }  
+  
+      nav {  
+        gap: 8px;  
+      }  
+  
+      nav a {  
+        font-size: 12px;  
+      }  
+  
+      .page-header {  
+        padding: 50px 20px 35px;  
+      }  
+  
+      .page-header h1 {  
+        font-size: 34px;  
+      }  
+  
+      .cards {  
+        grid-template-columns: 1fr;  
+      }  
+    }  
+  </style>  </head>  <body>    <header>  <a href="index.html" class="logo">  
+  NexaAssist  
+</a>  
+
+<nav>  
+  <a href="index.html">Home</a>  
+  <a href="assistants.html">Assistants</a>  
+  <a href="contact.html">Contact</a>  
+  <a href="login.html">Login</a>  
+  <a href="hire.html" class="hire-nav">Hire Now</a>  
+</nav>
+
+  </header>    <section class="page-header">  <h1>Meet Our Assistants</h1>  
+
+<p>  
+  Find a reliable virtual assistant to help  
+  with your business tasks.  
+</p>
+
+  </section>    <div class="search-container">  <input  
+  type="text"  
+  id="search"  
+  class="search-input"  
+  placeholder="Search assistants by name or skill..."  
+>
+
+  </div>    <main class="assistants">  <div id="count" class="assistant-count">  
+  6 assistants available  
+</div>  
+
+
+<div id="cards" class="cards">  
+
+
+  <div class="card">  
+
+    <div class="avatar">AM</div>  
+
+    <div class="verified">  
+      ✓ Nexa Verified  
+    </div>  
+
+    <h2>Alex Morgan</h2>  
+
+    <div class="role">  
+      Research Assistant  
+    </div>  
+
+    <p class="description">  
+      Helps businesses with online research,  
+      information gathering and organization.  
+    </p>  
+
+    <div class="price">  
+      From $5 / hour  
+    </div>  
+
+    <div class="buttons">  
+
+      <a  
+        href="profile.html?assistant=alex"  
+        class="profile-button"  
+      >  
+        View Profile  
+      </a>  
+
+      <a  
+        href="hire.html"  
+        class="hire-button"  
+      >  
+        Hire  
+      </a>  
+
+    </div>  
+
+  </div>  
+
+
+  <div class="card">  
+
+    <div class="avatar">SJ</div>  
+
+    <div class="verified">  
+      ✓ Nexa Verified  
+    </div>  
+
+    <h2>Sophia James</h2>  
+
+    <div class="role">  
+      Customer Support  
+    </div>  
+
+    <p class="description">  
+      Helps businesses manage customer questions,  
+      communication and support tasks.  
+    </p>  
+
+    <div class="price">  
+      From $7 / hour  
+    </div>  
+
+    <div class="buttons">  
+
+      <a  
+        href="profile.html?assistant=sophia"  
+        class="profile-button"  
+      >  
+        View Profile  
+      </a>  
+
+      <a  
+        href="hire.html"  
+        class="hire-button"  
+      >  
+        Hire  
+      </a>  
+
+    </div>  
+
+  </div>  
+
+
+  <div class="card">  
+
+    <div class="avatar">DC</div>  
+
+    <div class="verified">  
+      ✓ Nexa Verified  
+    </div>  
+
+    <h2>Daniel Carter</h2>  
+
+    <div class="role">  
+      Content Assistant  
+    </div>  
+
+    <p class="description">  
+      Supports businesses with content organization,  
+      writing assistance and digital tasks.  
+    </p>  
+
+    <div class="price">  
+      From $8 / hour  
+    </div>  
+
+    <div class="buttons">  
+
+      <a  
+        href="profile.html?assistant=daniel"  
+        class="profile-button"  
+      >  
+        View Profile  
+      </a>  
+
+      <a  
+        href="hire.html"  
+        class="hire-button"  
+      >  
+        Hire  
+      </a>  
+
+    </div>  
+
+  </div>  
+
+
+  <div class="card">  
+
+    <div class="avatar">EW</div>  
+
+    <div class="verified">  
+      ✓ Nexa Verified  
+    </div>  
+
+    <h2>Emma Wilson</h2>  
+
+    <div class="role">  
+      Administrative Assistant  
+    </div>  
+
+    <p class="description">  
+      Helps with scheduling, organization,  
+      documentation and administration.  
+    </p>  
+
+    <div class="price">  
+      From $6 / hour  
+    </div>  
+
+    <div class="buttons">  
+
+      <a  
+        href="profile.html?assistant=emma"  
+        class="profile-button"  
+      >  
+        View Profile  
+      </a>  
+
+      <a  
+        href="hire.html"  
+        class="hire-button"  
+      >  
+        Hire  
+      </a>  
+
+    </div>  
+
+  </div>  
+
+
+  <div class="card">  
+
+    <div class="avatar">LB</div>  
+
+    <div class="verified">  
+      ✓ Nexa Verified  
+    </div>  
+
+    <h2>Liam Brooks</h2>  
+
+    <div class="role">  
+      Data Assistant  
+    </div>  
+
+    <p class="description">  
+      Helps with data entry, organization and  
+      routine digital information management.  
+    </p>  
+
+    <div class="price">  
+      From $5 / hour  
+    </div>  
+
+    <div class="buttons">  
+
+      <a  
+        href="profile.html?assistant=liam"  
+        class="profile-button"  
+      >  
+        View Profile  
+      </a>  
+
+      <a  
+        href="hire.html"  
+        class="hire-button"  
+      >  
+        Hire  
+      </a>  
+
+    </div>  
+
+  </div>  
+
+
+  <div class="card">  
+
+    <div class="avatar">OR</div>  
+
+    <div class="verified">  
+      ✓ Nexa Verified  
+    </div>  
+
+    <h2>Olivia Reed</h2>  
+
+    <div class="role">  
+      Personal Assistant  
+    </div>  
+
+    <p class="description">  
+      Supports busy professionals with organization,  
+      scheduling and everyday digital tasks.  
+    </p>  
+
+    <div class="price">  
+      From $6 / hour  
+    </div>  
+
+    <div class="buttons">  
+
+      <a  
+        href="profile.html?assistant=olivia"  
+        class="profile-button"  
+      >  
+        View Profile  
+      </a>  
+
+      <a  
+        href="hire.html"  
+        class="hire-button"  
+      >  
+        Hire  
+      </a>  
+
+    </div>  
+
+  </div>  
+
+</div>  
+
+
+<div id="noResults" class="no-results">  
+  No assistants found.  
+</div>
+
+  </main>    <footer>  <div class="footer-logo">  
+  NexaAssist  
+</div>  
+
+<p>  
+  Reliable virtual assistance for growing businesses.  
+</p>  
+
+<p>  
+  © 2026 NexaAssist. All rights reserved.  
+</p>
+
+  </footer>    <script>  
+  
+    const search = document.getElementById("search");  
+    const cards = document.querySelectorAll(".card");  
+    const count = document.getElementById("count");  
+    const noResults = document.getElementById("noResults");  
+  
+    search.addEventListener("input", function() {  
+  
+      const text = search.value.toLowerCase();  
+  
+      let visible = 0;  
+  
+      cards.forEach(function(card) {  
+  
+        const content = card.textContent.toLowerCase();  
+  
+        if (content.includes(text)) {  
+  
+          card.style.display = "block";  
+  
+          visible++;  
+  
+        } else {  
+  
+          card.style.display = "none";  
+  
+        }  
+  
+      });  
+  
+      count.textContent =  
+        visible + " assistant" + (visible === 1 ? "" : "s") + " available";  
+  
+      if (visible === 0) {  
+  
+        noResults.style.display = "block";  
+  
+      } else {  
+  
+        noResults.style.display = "none";  
+  
+      }  
+  
+    });  
+  
+  </script>  </body>  
+  </html>
