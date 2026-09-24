@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Dashboard - NexaAssist</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    header {
+      background: #0b5ed7;
+      color: white;
+      padding: 18px 20px;
+    }
+
+    header h1 {
+      font-size: 22px;
+    }
+
+    header p {
+      margin-top: 5px;
+      opacity: 0.9;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .welcome {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .welcome h2 {
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      color: #666;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 11px 18px;
+      background: #0b5ed7;
+      color: white;
+      text-decoration: none;
+      border-radius: 7px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background: #084298;
+    }
+
+    .logout {
+      background: #dc3545;
+      margin-left: 8px;
+    }
+
+    .logout:hover {
+      background: #b02a37;
+    }
+
+    .account {
+      margin-top: 20px;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .account p {
+      margin: 8px 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>NexaAssist</h1>
+    <p>Customer Dashboard</p>
+  </header>
+
+  <div class="container">
+
+    <div class="welcome">
+      <h2>Welcome, <span id="userName">Customer</span>!</h2>
+      <p>Manage your virtual assistant requests from your dashboard.</p>
+
+      <a href="assistants.html" class="button">Find Assistants</a>
+      <button class="button logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <h3>Find an Assistant</h3>
+        <p>Browse Nigerian virtual assistants and find someone who matches your needs.</p>
+        <a href="assistants.html" class="button">Browse Assistants</a>
+      </div>
+
+      <div class="card">
+        <h3>Post a Job</h3>
+        <p>Create a job request and let suitable assistants respond to your needs.</p>
+        <button class="button" onclick="comingSoon()">Post a Job</button>
+      </div>
+
+      <div class="card">
+        <h3>My Requests</h3>
+        <p>View your hiring requests and track their progress.</p>
+        <button class="button" onclick="comingSoon()">View Requests</button>
+      </div>
+
+      <div class="card">
+        <h3>Messages</h3>
+        <p>Communicate with assistants about your work and hiring requests.</p>
+        <button class="button" onclick="comingSoon()">Open Messages</button>
+      </div>
+
+    </div>
+
+    <div class="account">
+      <h3>My Account</h3>
+
+      <p><strong>Name:</strong> <span id="accountName">Loading...</span></p>
+      <p><strong>Email:</strong> <span id="accountEmail">Loading...</span></p>
+      <p><strong>Account Type:</strong> Customer</p>
+    </div>
+
+  </div>
+
+  <footer>
+    © 2026 NexaAssist. All rights reserved.
+  </footer>
+
+  <script>
+
+    const userData = localStorage.getItem("nexaassistUser");
+
+    if (!userData) {
+      window.location.href = "login.html";
+    } else {
+
+      const user = JSON.parse(userData);
+
+      document.getElementById("userName").textContent =
+        user.fullName || "Customer";
+
+      document.getElementById("accountName").textContent =
+        user.fullName || "Not available";
+
+      document.getElementById("accountEmail").textContent =
+        user.email || "Not available";
+    }
+
+    function logout() {
+      localStorage.removeItem("nexaassistUser");
+      window.location.href = "login.html";
+    }
+
+    function comingSoon() {
+      alert("This feature will be connected to the NexaAssist backend next.");
+    }
+
+  </script>
+
+</body>
+</html>
