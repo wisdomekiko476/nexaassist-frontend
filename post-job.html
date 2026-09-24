@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post a Job - NexaAssist</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    header {
+      background: #0b5ed7;
+      color: white;
+      padding: 18px 20px;
+    }
+
+    header h1 {
+      font-size: 22px;
+    }
+
+    header p {
+      margin-top: 5px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    h2 {
+      margin-bottom: 8px;
+    }
+
+    .intro {
+      color: #666;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      margin-top: 16px;
+      margin-bottom: 7px;
+      font-weight: bold;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 7px;
+      font-size: 15px;
+      font-family: Arial, sans-serif;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 13px;
+      background: #0b5ed7;
+      color: white;
+      border: none;
+      border-radius: 7px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background: #084298;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 18px;
+      color: #0b5ed7;
+      text-decoration: none;
+    }
+
+    #message {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>NexaAssist</h1>
+    <p>Post a Job</p>
+  </header>
+
+  <div class="container">
+
+    <div class="card">
+
+      <h2>Post Your Job</h2>
+
+      <p class="intro">
+        Tell us what you need help with and the type of virtual assistant
+        you're looking for.
+      </p>
+
+      <form id="jobForm">
+
+        <label for="jobTitle">Job Title</label>
+        <input
+          type="text"
+          id="jobTitle"
+          placeholder="Example: Social Media Assistant"
+          required
+        >
+
+        <label for="service">Service Needed</label>
+
+        <select id="service" required>
+          <option value="">Select a service</option>
+          <option value="Virtual Assistance">Virtual Assistance</option>
+          <option value="Customer Support">Customer Support</option>
+          <option value="Social Media">Social Media Assistance</option>
+          <option value="Data Entry">Data Entry</option>
+          <option value="Research">Research</option>
+          <option value="Content">Content Assistance</option>
+          <option value="Administrative">Administrative Assistance</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label for="description">Job Description</label>
+
+        <textarea
+          id="description"
+          placeholder="Describe the work you need the assistant to do..."
+          required
+        ></textarea>
+
+        <label for="budget">Budget</label>
+
+        <input
+          type="text"
+          id="budget"
+          placeholder="Example: $50 per week"
+          required
+        >
+
+        <label for="duration">Expected Duration</label>
+
+        <select id="duration" required>
+          <option value="">Select duration</option>
+          <option value="One day">One day</option>
+          <option value="Less than one week">Less than one week</option>
+          <option value="1-4 weeks">1-4 weeks</option>
+          <option value="1-3 months">1-3 months</option>
+          <option value="Ongoing">Ongoing</option>
+        </select>
+
+        <button type="submit" class="button">
+          Post Job
+        </button>
+
+        <div id="message"></div>
+
+      </form>
+
+      <a href="client-dashboard.html" class="back">
+        ← Back to Dashboard
+      </a>
+
+    </div>
+
+  </div>
+
+  <footer>
+    © 2026 NexaAssist. All rights reserved.
+  </footer>
+
+  <script>
+
+    const userData = localStorage.getItem("nexaassistUser");
+
+    if (!userData) {
+      window.location.href = "login.html";
+    }
+
+    document.getElementById("jobForm").addEventListener("submit", function(event) {
+
+      event.preventDefault();
+
+      const message = document.getElementById("message");
+
+      message.style.color = "#0b5ed7";
+      message.textContent =
+        "Your job details have been received. Job posting will be connected to the NexaAssist backend next.";
+
+    });
+
+  </script>
+
+</body>
+</html>
