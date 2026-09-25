@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>My Applications - NexaAssist</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      color: #123b72;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #123b72;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .application {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .application h2 {
+      margin-top: 0;
+      color: #123b72;
+      text-transform: capitalize;
+    }
+
+    .status {
+      display: inline-block;
+      background: #fff3cd;
+      color: #856404;
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .empty {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .error {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      color: #b00020;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>My Applications</h1>
+
+    <p class="subtitle">
+      Track the jobs you have applied for and see their current status.
+    </p>
+
+    <a class="back" href="assistant-dashboard.html">
+      ← Back to Dashboard
+    </a>
+
+    <div id="applications">
+      Loading applications...
+    </div>
+
+  </div>
+
+
+  <script>
+
+    const API_URL =
+      "https://nexaassist-backend-new-1.onrender.com";
+
+
+    const user =
+      JSON.parse(
+        localStorage.getItem("nexaassistUser")
+      );
+
+
+    if (!user) {
+
+      window.location.href =
+        "login.html";
+
+    }
+
+
+    if (
+      user &&
+      user.role !== "assistant"
+    ) {
+
+      window.location.href =
+        "client-dashboard.html";
+
+    }
+
+
+    function escapeHTML(value) {
+
+      const div =
+        document.createElement("div");
+
+      div.textContent =
+        value || "";
+
+      return div.innerHTML;
+
+    }
+
+
+    async function loadApplications() {
+
+      const container =
+        document.getElementById(
+          "applications"
+        );
+
+
+      try {
+
+        const response =
+          await fetch(
+            API_URL +
+            "/applications?email=" +
+            encodeURIComponent(
+              user.email
+            )
+          );
+
+
+        const applications =
+          await response.json();
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            applications.message ||
+            "Failed to load applications."
+          );
+
+        }
+
+
+        if (
+          !applications ||
+          applications.length === 0
+        ) {
+
+          container.innerHTML = `
+
+            <div class="empty">
+
+              <p>
+                You have not applied for any jobs yet.
+              </p>
+
+            </div>
+
+          `;
+
+          return;
+
+        }
+
+
+        container.innerHTML =
+          applications.map(
+            application => {
+
+              const date =
+                new Date(
+                  application.createdAt
+                ).toLocaleDateString();
+
+
+              return `
+
+                <div class="application">
+
+                  <h2>
+                    ${escapeHTML(
+                      application.jobTitle
+                    )}
+                  </h2>
+
+                  <p>
+                    <strong>
+                      Applied:
+                    </strong>
+                    ${date}
+                  </p>
+
+                  <p>
+                    <strong>
+                      Assistant:
+                    </strong>
+                    ${escapeHTML(
+                      application.assistantName
+                    )}
+                  </p>
+
+                  <div class="status">
+
+                    Status:
+                    ${escapeHTML(
+                      application.status
+                    )}
+
+                  </div>
+
+                </div>
+
+              `;
+
+            }
+          ).join("");
+
+
+      } catch (error) {
+
+        console.log(error);
+
+        container.innerHTML = `
+
+          <div class="error">
+
+            <p>
+              Unable to load your applications right now.
+            </p>
+
+          </div>
+
+        `;
+
+      }
+
+    }
+
+
+    loadApplications();
+
+  </script>
+
+</body>
+
+</html>
