@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Assistant Dashboard | NexaAssist</title>
 
@@ -212,12 +218,12 @@
           looking for virtual assistants.
         </p>
 
-        <button
+        <a
+          href="assistant-jobs.html"
           class="button"
-          onclick="comingSoon()"
         >
           View Jobs
-        </button>
+        </a>
 
       </div>
 
@@ -254,12 +260,12 @@
           availability and preferred rate.
         </p>
 
-        <button
+        <a
+          href="assistant-profile.html"
           class="button"
-          onclick="comingSoon()"
         >
           Edit Profile
-        </button>
+        </a>
 
       </div>
 
@@ -296,6 +302,7 @@
 
       <p>
         <strong>Name:</strong>
+
         <span id="accountName">
           Loading...
         </span>
@@ -303,6 +310,7 @@
 
       <p>
         <strong>Email:</strong>
+
         <span id="accountEmail">
           Loading...
         </span>
@@ -329,6 +337,7 @@
 
   <script>
 
+
     const userData =
       localStorage.getItem(
         "nexaassistUser"
@@ -346,11 +355,6 @@
     const user =
       JSON.parse(userData);
 
-
-    /*
-      Make sure this is actually
-      an assistant account.
-    */
 
     if (user.role !== "assistant") {
 
@@ -401,8 +405,10 @@
 
     }
 
+
   </script>
 
 
 </body>
+
 </html>
