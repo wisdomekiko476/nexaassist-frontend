@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Assistant Dashboard | NexaAssist</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #0b5ed7;
+      color: white;
+      padding: 18px 20px;
+    }
+
+    header h1 {
+      font-size: 23px;
+    }
+
+    header p {
+      margin-top: 5px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .welcome {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .welcome h2 {
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(220px, 1fr)
+      );
+
+      gap: 18px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 11px 18px;
+      background: #0b5ed7;
+      color: white;
+      text-decoration: none;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .button:hover {
+      background: #084298;
+    }
+
+    .logout {
+      background: #dc3545;
+      margin-left: 8px;
+    }
+
+    .logout:hover {
+      background: #b02a37;
+    }
+
+    .account {
+      margin-top: 20px;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .account h3 {
+      margin-bottom: 12px;
+    }
+
+    .account p {
+      margin: 8px 0;
+    }
+
+    .status {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 7px 12px;
+      background: #e8f7ee;
+      color: #18794e;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: #777;
+      font-size: 14px;
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <header>
+
+    <h1>NexaAssist</h1>
+
+    <p>
+      Assistant Dashboard
+    </p>
+
+  </header>
+
+
+  <div class="container">
+
+
+    <div class="welcome">
+
+      <h2>
+        Welcome,
+        <span id="userName">
+          Assistant
+        </span>!
+      </h2>
+
+      <p>
+        Find jobs, manage your assistant profile,
+        and connect with businesses that need your skills.
+      </p>
+
+      <span class="status">
+        Assistant Account
+      </span>
+
+      <br>
+
+      <button
+        class="button logout"
+        onclick="logout()"
+      >
+        Logout
+      </button>
+
+    </div>
+
+
+    <div class="cards">
+
+
+      <div class="card">
+
+        <h3>
+          Available Jobs
+        </h3>
+
+        <p>
+          Browse jobs posted by businesses
+          looking for virtual assistants.
+        </p>
+
+        <button
+          class="button"
+          onclick="comingSoon()"
+        >
+          View Jobs
+        </button>
+
+      </div>
+
+
+      <div class="card">
+
+        <h3>
+          My Applications
+        </h3>
+
+        <p>
+          Track the jobs you have applied for
+          and see their current status.
+        </p>
+
+        <button
+          class="button"
+          onclick="comingSoon()"
+        >
+          My Applications
+        </button>
+
+      </div>
+
+
+      <div class="card">
+
+        <h3>
+          My Profile
+        </h3>
+
+        <p>
+          Add your skills, services, experience,
+          availability and preferred rate.
+        </p>
+
+        <button
+          class="button"
+          onclick="comingSoon()"
+        >
+          Edit Profile
+        </button>
+
+      </div>
+
+
+      <div class="card">
+
+        <h3>
+          Messages
+        </h3>
+
+        <p>
+          Communicate with businesses about
+          jobs and applications.
+        </p>
+
+        <button
+          class="button"
+          onclick="comingSoon()"
+        >
+          Open Messages
+        </button>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="account">
+
+      <h3>
+        My Account
+      </h3>
+
+      <p>
+        <strong>Name:</strong>
+        <span id="accountName">
+          Loading...
+        </span>
+      </p>
+
+      <p>
+        <strong>Email:</strong>
+        <span id="accountEmail">
+          Loading...
+        </span>
+      </p>
+
+      <p>
+        <strong>Account Type:</strong>
+        Assistant
+      </p>
+
+    </div>
+
+
+  </div>
+
+
+  <footer>
+
+    © 2026 NexaAssist.
+    All rights reserved.
+
+  </footer>
+
+
+  <script>
+
+    const userData =
+      localStorage.getItem(
+        "nexaassistUser"
+      );
+
+
+    if (!userData) {
+
+      window.location.href =
+        "login.html";
+
+    }
+
+
+    const user =
+      JSON.parse(userData);
+
+
+    /*
+      Make sure this is actually
+      an assistant account.
+    */
+
+    if (user.role !== "assistant") {
+
+      window.location.href =
+        "client-dashboard.html";
+
+    }
+
+
+    document.getElementById(
+      "userName"
+    ).textContent =
+      user.fullName ||
+      "Assistant";
+
+
+    document.getElementById(
+      "accountName"
+    ).textContent =
+      user.fullName ||
+      "Not available";
+
+
+    document.getElementById(
+      "accountEmail"
+    ).textContent =
+      user.email ||
+      "Not available";
+
+
+    function logout() {
+
+      localStorage.removeItem(
+        "nexaassistUser"
+      );
+
+      window.location.href =
+        "login.html";
+
+    }
+
+
+    function comingSoon() {
+
+      alert(
+        "This feature will be connected to the NexaAssist backend next."
+      );
+
+    }
+
+  </script>
+
+
+</body>
+</html>
