@@ -125,6 +125,11 @@
       background: #084298;
     }
 
+    .button:disabled {
+      background: #888;
+      cursor: not-allowed;
+    }
+
     .back-button {
       background: #6c757d;
       margin-left: 8px;
@@ -138,6 +143,14 @@
       margin-top: 18px;
       font-size: 14px;
       line-height: 1.5;
+    }
+
+    .success {
+      color: #198754;
+    }
+
+    .error {
+      color: #dc3545;
     }
 
     .note {
@@ -364,6 +377,7 @@
         <button
           type="submit"
           class="button"
+          id="saveButton"
         >
           Save Profile
         </button>
@@ -389,9 +403,9 @@
       <div class="note">
 
         <strong>Important:</strong>
-        Your profile information will eventually
-        be shown to businesses looking for
-        virtual assistants.
+        Your profile information will be stored
+        securely in the NexaAssist database and
+        can later be displayed to businesses.
 
       </div>
 
@@ -451,6 +465,12 @@
       );
 
 
+    const saveButton =
+      document.getElementById(
+        "saveButton"
+      );
+
+
     const message =
       document.getElementById(
         "message"
@@ -459,16 +479,154 @@
 
     profileForm.addEventListener(
       "submit",
-      function(event) {
+      async function(event) {
 
         event.preventDefault();
 
 
-        message.textContent =
-          "Profile form is working. Backend saving will be connected next.";
+        const fullName =
+          document.getElementById(
+            "fullName"
+          ).value.trim();
 
-        message.style.color =
-          "#198754";
+
+        const service =
+          document.getElementById(
+            "service"
+          ).value;
+
+
+        const skills =
+          document.getElementById(
+            "skills"
+          ).value.trim();
+
+
+        const experience =
+          document.getElementById(
+            "experience"
+          ).value.trim();
+
+
+        const rate =
+          document.getElementById(
+            "rate"
+          ).value.trim();
+
+
+        const availability =
+          document.getElementById(
+            "availability"
+          ).value;
+
+
+        const bio =
+          document.getElementById(
+            "bio"
+          ).value.trim();
+
+
+        message.textContent =
+          "Saving profile...";
+
+
+        message.className =
+          "message";
+
+
+        saveButton.disabled =
+          true;
+
+
+        try {
+
+
+          const response =
+            await fetch(
+              "https://nexaassist-backend-new-1.onrender.com/assistant-profile",
+              {
+
+                method: "POST",
+
+                headers: {
+
+                  "Content-Type":
+                    "application/json"
+
+                },
+
+                body: JSON.stringify({
+
+                  fullName:
+                    fullName,
+
+                  email:
+                    user.email,
+
+                  service:
+                    service,
+
+                  skills:
+                    skills,
+
+                  experience:
+                    experience,
+
+                  rate:
+                    rate,
+
+                  availability:
+                    availability,
+
+                  bio:
+                    bio
+
+                })
+
+              }
+            );
+
+
+          const data =
+            await response.json();
+
+
+          if (!response.ok) {
+
+            throw new Error(
+              data.message ||
+              "Failed to save profile."
+            );
+
+          }
+
+
+          message.textContent =
+            "Profile saved successfully!";
+
+
+          message.className =
+            "message success";
+
+
+        }
+
+        catch (error) {
+
+
+          message.textContent =
+            error.message;
+
+
+          message.className =
+            "message error";
+
+
+        }
+
+
+        saveButton.disabled =
+          false;
 
       }
     );
