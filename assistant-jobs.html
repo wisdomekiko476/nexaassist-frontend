@@ -2,274 +2,136 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>Available Jobs | NexaAssist</title>
+  <title>Available Jobs - NexaAssist</title>
 
   <style>
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
       font-family: Arial, sans-serif;
-      background: #f5f7fb;
-      color: #1f2937;
-      min-height: 100vh;
-    }
-
-    header {
-      background: #0b5ed7;
-      color: white;
-      padding: 18px 20px;
-    }
-
-    header h1 {
-      font-size: 23px;
-    }
-
-    header p {
-      margin-top: 5px;
-      font-size: 14px;
-      opacity: 0.9;
+      background: #f4f7fb;
+      margin: 0;
+      padding: 20px;
     }
 
     .container {
-      max-width: 1000px;
-      margin: 30px auto;
-      padding: 0 20px;
+      max-width: 900px;
+      margin: auto;
     }
 
-    .top {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
-
-    .top h2 {
+    h1 {
+      color: #123b72;
       margin-bottom: 8px;
     }
 
-    .top p {
-      color: #666;
-      line-height: 1.5;
-    }
-
-    .job-list {
-      display: grid;
-
-      grid-template-columns:
-        repeat(
-          auto-fit,
-          minmax(280px, 1fr)
-        );
-
-      gap: 18px;
-    }
-
-    .job-card {
-      background: white;
-
-      padding: 25px;
-
-      border-radius: 12px;
-
-      box-shadow:
-        0 2px 8px rgba(0,0,0,0.06);
-    }
-
-    .job-card h3 {
-      color: #0b5ed7;
-      margin-bottom: 12px;
-    }
-
-    .job-info {
-      margin-bottom: 10px;
-      line-height: 1.5;
-    }
-
-    .job-info strong {
-      color: #333;
-    }
-
-    .description {
-      margin-top: 15px;
-
+    .subtitle {
       color: #555;
+      margin-bottom: 20px;
+    }
 
-      line-height: 1.5;
+    .back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #123b72;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .job {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .job h2 {
+      margin-top: 0;
+      color: #123b72;
+      text-transform: capitalize;
+    }
+
+    .job p {
+      line-height: 1.6;
     }
 
     .status {
       display: inline-block;
-
-      margin-top: 15px;
-
+      background: #e7f6ea;
+      color: #19763a;
       padding: 6px 10px;
-
-      background: #e8f7ee;
-
-      color: #18794e;
-
-      border-radius: 20px;
-
-      font-size: 12px;
-
+      border-radius: 6px;
       font-weight: bold;
+      margin-bottom: 15px;
     }
 
-    .button {
-      display: inline-block;
-
-      margin-top: 18px;
-
-      padding: 11px 18px;
-
-      background: #0b5ed7;
-
+    button {
+      background: #123b72;
       color: white;
-
-      text-decoration: none;
-
       border: none;
-
-      border-radius: 7px;
-
+      padding: 12px 18px;
+      border-radius: 6px;
       cursor: pointer;
-
-      font-size: 14px;
+      font-size: 15px;
     }
 
-    .button:hover {
-      background: #084298;
+    button:hover {
+      background: #0d2d57;
     }
 
-    .back-button {
-      background: #6c757d;
-    }
-
-    .back-button:hover {
-      background: #565e64;
+    button:disabled {
+      background: #888;
+      cursor: not-allowed;
     }
 
     .message {
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    .empty {
       background: white;
-
-      padding: 25px;
-
-      border-radius: 12px;
-
-      text-align: center;
-
-      color: #666;
-
-      box-shadow:
-        0 2px 8px rgba(0,0,0,0.06);
+      padding: 20px;
+      border-radius: 10px;
     }
-
-    .error {
-      color: #dc3545;
-    }
-
-    footer {
-      text-align: center;
-
-      padding: 30px 20px;
-
-      color: #777;
-
-      font-size: 14px;
-    }
-
   </style>
-
 </head>
-
 
 <body>
 
-
-  <header>
-
-    <h1>
-      NexaAssist
-    </h1>
-
-    <p>
-      Available Jobs
-    </p>
-
-  </header>
-
-
   <div class="container">
 
+    <h1>Available Jobs</h1>
 
-    <div class="top">
+    <p class="subtitle">
+      Browse jobs posted by businesses looking for virtual assistants.
+    </p>
 
-      <h2>
-        Available Jobs
-      </h2>
+    <a class="back" href="assistant-dashboard.html">
+      ← Back to Dashboard
+    </a>
 
-      <p>
-        Browse jobs posted by businesses
-        looking for virtual assistants.
-      </p>
-
-      <a
-        href="assistant-dashboard.html"
-        class="button back-button"
-      >
-        Back to Dashboard
-      </a>
-
+    <div id="jobs">
+      Loading jobs...
     </div>
-
-
-    <div
-      id="jobList"
-      class="job-list"
-    >
-
-      <div class="message">
-        Loading available jobs...
-      </div>
-
-    </div>
-
 
   </div>
 
 
-  <footer>
-
-    © 2026 NexaAssist.
-    All rights reserved.
-
-  </footer>
-
-
   <script>
 
+    const API_URL =
+      "https://nexaassist-backend-new-1.onrender.com";
 
-    const userData =
-      localStorage.getItem(
-        "nexaassistUser"
+
+    const user =
+      JSON.parse(
+        localStorage.getItem("nexaassistUser")
       );
 
 
-    if (!userData) {
+    if (!user) {
 
       window.location.href =
         "login.html";
@@ -277,11 +139,10 @@
     }
 
 
-    const user =
-      JSON.parse(userData);
-
-
-    if (user.role !== "assistant") {
+    if (
+      user &&
+      user.role !== "assistant"
+    ) {
 
       window.location.href =
         "client-dashboard.html";
@@ -289,20 +150,30 @@
     }
 
 
-    const jobList =
-      document.getElementById(
-        "jobList"
-      );
+    function escapeHTML(value) {
+
+      const div =
+        document.createElement("div");
+
+      div.textContent =
+        value || "";
+
+      return div.innerHTML;
+
+    }
 
 
     async function loadJobs() {
 
-      try {
+      const jobsContainer =
+        document.getElementById("jobs");
 
+
+      try {
 
         const response =
           await fetch(
-            "https://nexaassist-backend-new-1.onrender.com/jobs"
+            API_URL + "/jobs"
           );
 
 
@@ -310,10 +181,11 @@
           await response.json();
 
 
-        if (!response.ok) {
+        if (
+          !response.ok
+        ) {
 
           throw new Error(
-            jobs.message ||
             "Failed to load jobs."
           );
 
@@ -321,25 +193,14 @@
 
 
         if (
-          !Array.isArray(jobs) ||
+          !jobs ||
           jobs.length === 0
         ) {
 
-          jobList.innerHTML = `
-
-            <div class="message">
-
-              <h3>
-                No jobs available yet
-              </h3>
-
-              <p style="margin-top:10px;">
-                New customer jobs will appear here
-                when they are posted.
-              </p>
-
+          jobsContainer.innerHTML = `
+            <div class="empty">
+              <p>No jobs are available right now.</p>
             </div>
-
           `;
 
           return;
@@ -347,127 +208,74 @@
         }
 
 
-        jobList.innerHTML = "";
+        jobsContainer.innerHTML =
+          jobs.map(job => {
 
+            return `
 
-        jobs.forEach(
-          function(job) {
+              <div class="job">
 
+                <h2>
+                  ${escapeHTML(job.jobTitle)}
+                </h2>
 
-            const card =
-              document.createElement(
-                "div"
-              );
+                <p>
+                  <strong>Service:</strong>
+                  ${escapeHTML(job.service)}
+                </p>
 
+                <p>
+                  <strong>Budget:</strong>
+                  ${escapeHTML(job.budget)}
+                </p>
 
-            card.className =
-              "job-card";
+                <p>
+                  <strong>Duration:</strong>
+                  ${escapeHTML(job.duration)}
+                </p>
 
+                <p>
+                  <strong>Description:</strong><br>
+                  ${escapeHTML(job.description)}
+                </p>
 
-            card.innerHTML = `
-
-              <h3>
-                ${escapeHtml(
-                  job.jobTitle
-                )}
-              </h3>
-
-              <div class="job-info">
-
-                <strong>
-                  Service:
-                </strong>
-
-                ${escapeHtml(
-                  job.service
-                )}
-
-              </div>
-
-              <div class="job-info">
-
-                <strong>
-                  Budget:
-                </strong>
-
-                ${escapeHtml(
-                  job.budget
-                )}
-
-              </div>
-
-              <div class="job-info">
-
-                <strong>
-                  Duration:
-                </strong>
-
-                ${escapeHtml(
-                  job.duration
-                )}
-
-              </div>
-
-              <div class="description">
-
-                <strong>
-                  Description:
-                </strong>
+                <div class="status">
+                  ${escapeHTML(job.status)}
+                </div>
 
                 <br>
 
-                ${escapeHtml(
-                  job.description
-                )}
+                <button
+                  onclick="applyForJob(
+                    '${job._id}'
+                  )"
+                  id="apply-${job._id}"
+                >
+                  Apply for Job
+                </button>
+
+                <div
+                  class="message"
+                  id="message-${job._id}"
+                ></div>
 
               </div>
 
-              <span class="status">
-
-                ${escapeHtml(
-                  job.status || "Open"
-                )}
-
-              </span>
-
-              <br>
-
-              <button
-                class="button"
-                onclick="applyForJob('${job._id}')"
-              >
-                Apply for Job
-              </button>
-
             `;
 
-
-            jobList.appendChild(
-              card
-            );
+          }).join("");
 
 
-          }
-        );
+      } catch (error) {
 
+        console.log(error);
 
-      }
+        jobsContainer.innerHTML = `
 
-      catch (error) {
+          <div class="empty">
 
-
-        jobList.innerHTML = `
-
-          <div class="message error">
-
-            <h3>
-              Unable to load jobs
-            </h3>
-
-            <p style="margin-top:10px;">
-              ${escapeHtml(
-                error.message
-              )}
+            <p>
+              Unable to load jobs right now.
             </p>
 
           </div>
@@ -479,47 +287,111 @@
     }
 
 
-    function escapeHtml(value) {
+    async function applyForJob(jobId) {
 
-      return String(value || "")
-        .replace(
-          /&/g,
-          "&amp;"
-        )
-        .replace(
-          /</g,
-          "&lt;"
-        )
-        .replace(
-          />/g,
-          "&gt;"
-        )
-        .replace(
-          /"/g,
-          "&quot;"
-        )
-        .replace(
-          /'/g,
-          "&#039;"
+      const button =
+        document.getElementById(
+          "apply-" + jobId
         );
 
-    }
+
+      const message =
+        document.getElementById(
+          "message-" + jobId
+        );
 
 
-    function applyForJob(jobId) {
+      button.disabled = true;
 
-      alert(
-        "Job application will be connected to the backend next."
-      );
+      button.textContent =
+        "Submitting...";
+
+
+      message.textContent =
+        "";
+
+
+      try {
+
+        const response =
+          await fetch(
+            API_URL + "/applications",
+            {
+
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body: JSON.stringify({
+
+                jobId:
+                  jobId,
+
+                assistantName:
+                  user.fullName,
+
+                assistantEmail:
+                  user.email
+
+              })
+
+            }
+          );
+
+
+        const data =
+          await response.json();
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.message ||
+            "Failed to submit application."
+          );
+
+        }
+
+
+        message.style.color =
+          "green";
+
+        message.textContent =
+          "Application submitted successfully!";
+
+
+        button.textContent =
+          "Applied";
+
+
+      } catch (error) {
+
+        console.log(error);
+
+        message.style.color =
+          "red";
+
+        message.textContent =
+          error.message;
+
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "Apply for Job";
+
+      }
 
     }
 
 
     loadJobs();
 
-
   </script>
-
 
 </body>
 
