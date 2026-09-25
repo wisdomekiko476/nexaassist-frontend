@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>My Profile | NexaAssist</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #0b5ed7;
+      color: white;
+      padding: 18px 20px;
+    }
+
+    header h1 {
+      font-size: 23px;
+    }
+
+    header p {
+      margin-top: 5px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .profile-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .profile-box h2 {
+      margin-bottom: 8px;
+    }
+
+    .intro {
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 7px;
+      font-size: 14px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px;
+
+      border: 1px solid #ccc;
+      border-radius: 7px;
+
+      font-size: 15px;
+      font-family: Arial, sans-serif;
+
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #0b5ed7;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .button {
+      display: inline-block;
+
+      padding: 12px 20px;
+
+      background: #0b5ed7;
+      color: white;
+
+      border: none;
+      border-radius: 7px;
+
+      cursor: pointer;
+
+      font-size: 15px;
+
+      text-decoration: none;
+    }
+
+    .button:hover {
+      background: #084298;
+    }
+
+    .back-button {
+      background: #6c757d;
+      margin-left: 8px;
+    }
+
+    .back-button:hover {
+      background: #565e64;
+    }
+
+    .message {
+      margin-top: 18px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .note {
+      margin-top: 20px;
+      padding: 15px;
+
+      background: #eef5ff;
+
+      border-radius: 8px;
+
+      color: #555;
+
+      font-size: 13px;
+
+      line-height: 1.5;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: #777;
+      font-size: 14px;
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <header>
+
+    <h1>
+      NexaAssist
+    </h1>
+
+    <p>
+      Assistant Profile
+    </p>
+
+  </header>
+
+
+  <div class="container">
+
+
+    <div class="profile-box">
+
+
+      <h2>
+        My Professional Profile
+      </h2>
+
+
+      <p class="intro">
+        Complete your profile so businesses can
+        understand your skills and experience.
+      </p>
+
+
+      <form id="profileForm">
+
+
+        <div class="form-group">
+
+          <label for="fullName">
+            Full Name
+          </label>
+
+          <input
+            type="text"
+            id="fullName"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="service">
+            Main Service
+          </label>
+
+          <select
+            id="service"
+            required
+          >
+
+            <option value="">
+              Select a service
+            </option>
+
+            <option value="Virtual Assistance">
+              Virtual Assistance
+            </option>
+
+            <option value="Social Media Assistance">
+              Social Media Assistance
+            </option>
+
+            <option value="Customer Support">
+              Customer Support
+            </option>
+
+            <option value="Data Entry">
+              Data Entry
+            </option>
+
+            <option value="Research">
+              Research
+            </option>
+
+            <option value="Content Writing">
+              Content Writing
+            </option>
+
+            <option value="Administrative Assistance">
+              Administrative Assistance
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="skills">
+            Skills
+          </label>
+
+          <input
+            type="text"
+            id="skills"
+            placeholder="e.g. Canva, Excel, customer service"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="experience">
+            Experience
+          </label>
+
+          <input
+            type="text"
+            id="experience"
+            placeholder="e.g. 2 years"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="rate">
+            Preferred Rate
+          </label>
+
+          <input
+            type="text"
+            id="rate"
+            placeholder="e.g. $5/hour"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="availability">
+            Availability
+          </label>
+
+          <select
+            id="availability"
+            required
+          >
+
+            <option value="">
+              Select availability
+            </option>
+
+            <option value="Full-time">
+              Full-time
+            </option>
+
+            <option value="Part-time">
+              Part-time
+            </option>
+
+            <option value="Flexible">
+              Flexible
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="bio">
+            About Me
+          </label>
+
+          <textarea
+            id="bio"
+            placeholder="Tell businesses about yourself, your strengths and the type of work you can handle."
+            required
+          ></textarea>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="button"
+        >
+          Save Profile
+        </button>
+
+
+        <a
+          href="assistant-dashboard.html"
+          class="button back-button"
+        >
+          Back to Dashboard
+        </a>
+
+
+        <div
+          id="message"
+          class="message"
+        ></div>
+
+
+      </form>
+
+
+      <div class="note">
+
+        <strong>Important:</strong>
+        Your profile information will eventually
+        be shown to businesses looking for
+        virtual assistants.
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+  <footer>
+
+    © 2026 NexaAssist.
+    All rights reserved.
+
+  </footer>
+
+
+  <script>
+
+
+    const userData =
+      localStorage.getItem(
+        "nexaassistUser"
+      );
+
+
+    if (!userData) {
+
+      window.location.href =
+        "login.html";
+
+    }
+
+
+    const user =
+      JSON.parse(userData);
+
+
+    if (user.role !== "assistant") {
+
+      window.location.href =
+        "client-dashboard.html";
+
+    }
+
+
+    document.getElementById(
+      "fullName"
+    ).value =
+      user.fullName || "";
+
+
+    const profileForm =
+      document.getElementById(
+        "profileForm"
+      );
+
+
+    const message =
+      document.getElementById(
+        "message"
+      );
+
+
+    profileForm.addEventListener(
+      "submit",
+      function(event) {
+
+        event.preventDefault();
+
+
+        message.textContent =
+          "Profile form is working. Backend saving will be connected next.";
+
+        message.style.color =
+          "#198754";
+
+      }
+    );
+
+
+  </script>
+
+
+</body>
+
+</html>
