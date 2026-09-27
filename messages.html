@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Messages - NexaAssist</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #0b5ed7;
+      color: white;
+      padding: 18px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 25px auto;
+      padding: 15px;
+    }
+
+    .job-box,
+    .message-box,
+    .send-box {
+      background: white;
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .job-box h2 {
+      margin-top: 0;
+      color: #0b5ed7;
+    }
+
+    .messages {
+      max-height: 450px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      background: #f8f9fa;
+    }
+
+    .message {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      background: #e9ecef;
+    }
+
+    .message.mine {
+      background: #dbeafe;
+      text-align: right;
+    }
+
+    .message strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .message small {
+      color: #666;
+      display: block;
+      margin-top: 5px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+      font-size: 16px;
+    }
+
+    button {
+      background: #0b5ed7;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #084298;
+    }
+
+    .back-btn {
+      background: #6c757d;
+    }
+
+    .back-btn:hover {
+      background: #545b62;
+    }
+
+    .error {
+      color: #dc3545;
+      font-weight: bold;
+    }
+
+    .success {
+      color: #198754;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>NexaAssist Messages</h1>
+  </header>
+
+  <div class="container">
+
+    <div class="job-box">
+      <h2 id="jobTitle">Loading job...</h2>
+
+      <p>
+        <strong>Other person:</strong>
+        <span id="otherPerson">Loading...</span>
+      </p>
+
+      <p>
+        <strong>Status:</strong>
+        <span id="jobStatus">Loading...</span>
+      </p>
+    </div>
+
+    <div class="message-box">
+
+      <h2>Conversation</h2>
+
+      <div id="messages" class="messages">
+        Loading messages...
+      </div>
+
+    </div>
+
+    <div class="send-box">
+
+      <h2>Send Message</h2>
+
+      <textarea
+        id="messageInput"
+        placeholder="Type your message here..."
+      ></textarea>
+
+      <button onclick="sendMessage()">
+        Send Message
+      </button>
+
+      <p id="status"></p>
+
+    </div>
+
+    <button
+      class="back-btn"
+      onclick="history.back()"
+    >
+      ← Back
+    </button>
+
+  </div>
+
+<script>
+
+const API =
+  "https://nexaassist-backend-new-1.onrender.com";
+
+const user =
+  JSON.parse(
+    localStorage.getItem("nexaassistUser")
+  );
+
+if (!user) {
+
+  window.location.href =
+    "login.html";
+
+}
+
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
+
+const jobId =
+  params.get("jobId");
+
+if (!jobId) {
+
+  document.getElementById("messages").innerHTML =
+    "<p class='error'>No job selected.</p>";
+
+} else {
+
+  loadJob();
+  loadMessages();
+
+  setInterval(
+    loadMessages,
+    5000
+  );
+
+}
+
+
+async function loadJob() {
+
+  try {
+
+    const response =
+      await fetch(
+        API + "/jobs"
+      );
+
+    const jobs =
+      await response.json();
+
+    const job =
+      jobs.find(
+        item =>
+          item._id === jobId
+      );
+
+    if (!job) {
+
+      document.getElementById("jobTitle").textContent =
+        "Job not found";
+
+      return;
+
+    }
+
+    document.getElementById("jobTitle").textContent =
+      job.title;
+
+    document.getElementById("jobStatus").textContent =
+      job.status;
+
+    let otherPerson =
+      "Unknown";
+
+    if (
+      user.role === "client" ||
+      user.role === "customer"
+    ) {
+
+      try {
+
+        const response =
+          await fetch(
+            API +
+            "/customer-hires?email=" +
+            encodeURIComponent(user.email)
+          );
+
+        const hires =
+          await response.json();
+
+        const hire =
+          hires.find(
+            item =>
+              item.jobId === jobId
+          );
+
+        if (hire) {
+
+          otherPerson =
+            hire.assistantName +
+            " (" +
+            hire.assistantEmail +
+            ")";
+
+        }
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+
+    } else {
+
+      try {
+
+        const response =
+          await fetch(
+            API +
+            "/assistant-hires?email=" +
+            encodeURIComponent(user.email)
+          );
+
+        const hires =
+          await response.json();
+
+        const hire =
+          hires.find(
+            item =>
+              item.jobId === jobId
+          );
+
+        if (hire) {
+
+          otherPerson =
+            hire.customerName +
+            " (" +
+            hire.customerEmail +
+            ")";
+
+        }
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+
+    }
+
+    document.getElementById("otherPerson").textContent =
+      otherPerson;
+
+  } catch (error) {
+
+    console.log(error);
+
+    document.getElementById("jobTitle").textContent =
+      "Failed to load job";
+
+  }
+
+}
+
+
+async function loadMessages() {
+
+  if (!jobId || !user) {
+    return;
+  }
+
+  try {
+
+    const response =
+      await fetch(
+        API +
+        "/messages?jobId=" +
+        encodeURIComponent(jobId) +
+        "&email=" +
+        encodeURIComponent(user.email)
+      );
+
+    const data =
+      await response.json();
+
+    if (!response.ok) {
+
+      document.getElementById("messages").innerHTML =
+        "<p class='error'>" +
+        (data.message ||
+        "Unable to load messages.") +
+        "</p>";
+
+      return;
+
+    }
+
+    const messagesBox =
+      document.getElementById("messages");
+
+    if (!data.length) {
+
+      messagesBox.innerHTML =
+        "<p>No messages yet. Start the conversation.</p>";
+
+      return;
+
+    }
+
+    messagesBox.innerHTML = "";
+
+    data.forEach(
+      message => {
+
+        const div =
+          document.createElement("div");
+
+        div.className =
+          "message";
+
+        if (
+          message.senderEmail.toLowerCase() ===
+          user.email.toLowerCase()
+        ) {
+
+          div.classList.add("mine");
+
+        }
+
+        const sender =
+          document.createElement("strong");
+
+        sender.textContent =
+          message.senderName;
+
+        const text =
+          document.createElement("div");
+
+        text.textContent =
+          message.message;
+
+        const time =
+          document.createElement("small");
+
+        time.textContent =
+          new Date(
+            message.createdAt
+          ).toLocaleString();
+
+        div.appendChild(sender);
+        div.appendChild(text);
+        div.appendChild(time);
+
+        messagesBox.appendChild(div);
+
+      }
+    );
+
+    messagesBox.scrollTop =
+      messagesBox.scrollHeight;
+
+  } catch (error) {
+
+    console.log(error);
+
+    document.getElementById("messages").innerHTML =
+      "<p class='error'>Failed to load messages.</p>";
+
+  }
+
+}
+
+
+async function sendMessage() {
+
+  const input =
+    document.getElementById(
+      "messageInput"
+    );
+
+  const status =
+    document.getElementById(
+      "status"
+    );
+
+  const message =
+    input.value.trim();
+
+  if (!message) {
+
+    status.className =
+      "error";
+
+    status.textContent =
+      "Please type a message.";
+
+    return;
+
+  }
+
+  status.className = "";
+  status.textContent =
+    "Sending...";
+
+  try {
+
+    const response =
+      await fetch(
+        API + "/messages",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+
+            jobId: jobId,
+
+            senderName:
+              user.fullName,
+
+            senderEmail:
+              user.email,
+
+            receiverName:
+              "NexaAssist User",
+
+            receiverEmail:
+              "unknown",
+
+            message:
+              message
+
+          })
+
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if (!response.ok) {
+
+      status.className =
+        "error";
+
+      status.textContent =
+        data.message ||
+        "Failed to send message.";
+
+      return;
+
+    }
+
+    input.value = "";
+
+    status.className =
+      "success";
+
+    status.textContent =
+      "Message sent!";
+
+    loadMessages();
+
+  } catch (error) {
+
+    console.log(error);
+
+    status.className =
+      "error";
+
+    status.textContent =
+      "Unable to connect to the server.";
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
