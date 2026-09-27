@@ -99,6 +99,7 @@
       cursor: pointer;
       font-size: 15px;
       margin-top: 10px;
+      margin-right: 8px;
     }
 
     button:hover {
@@ -144,7 +145,9 @@
 
 <div class="container">
 
-  <a href="client-dashboard.html" class="back">← Back to Dashboard</a>
+  <a href="client-dashboard.html" class="back">
+    ← Back to Dashboard
+  </a>
 
   <div id="message" class="message"></div>
 
@@ -155,9 +158,14 @@
 </div>
 
 <script>
-  const API = "https://nexaassist-backend-new-1.onrender.com";
 
-  const user = JSON.parse(localStorage.getItem("nexaassistUser"));
+  const API =
+    "https://nexaassist-backend-new-1.onrender.com";
+
+  const user =
+    JSON.parse(
+      localStorage.getItem("nexaassistUser")
+    );
 
   if (!user) {
     window.location.href = "login.html";
@@ -167,56 +175,101 @@
     window.location.href = "assistant-dashboard.html";
   }
 
-  const jobsContainer = document.getElementById("jobsContainer");
-  const messageBox = document.getElementById("message");
+  const jobsContainer =
+    document.getElementById("jobsContainer");
+
+  const messageBox =
+    document.getElementById("message");
+
 
   function showMessage(text, type) {
+
     messageBox.textContent = text;
-    messageBox.className = "message " + type;
-    messageBox.style.display = "block";
+
+    messageBox.className =
+      "message " + type;
+
+    messageBox.style.display =
+      "block";
   }
+
 
   function statusClass(status) {
+
     if (!status) return "";
+
     return status.toLowerCase();
+
   }
 
-  async function loadJobs() {
-    try {
-      const jobsResponse = await fetch(API + "/jobs");
-      const jobs = await jobsResponse.json();
 
-      const myJobs = jobs.filter(job =>
-        job.customerEmail === user.email
-      );
+  async function loadJobs() {
+
+    try {
+
+      const jobsResponse =
+        await fetch(
+          API + "/jobs"
+        );
+
+      const jobs =
+        await jobsResponse.json();
+
+
+      const myJobs =
+        jobs.filter(
+          job =>
+            job.customerEmail ===
+            user.email
+        );
+
 
       if (myJobs.length === 0) {
+
         jobsContainer.innerHTML = `
           <div class="empty">
             <p>You have not posted any jobs yet.</p>
           </div>
         `;
+
         return;
       }
 
-      const applicationsResponse = await fetch(
-        API + "/customer-applications?email=" +
-        encodeURIComponent(user.email)
-      );
 
-      const applications = await applicationsResponse.json();
+      const applicationsResponse =
+        await fetch(
+          API +
+          "/customer-applications?email=" +
+          encodeURIComponent(
+            user.email
+          )
+        );
+
+
+      const applications =
+        await applicationsResponse.json();
+
 
       jobsContainer.innerHTML = "";
 
+
       myJobs.forEach(job => {
 
-        const jobApplications = applications.filter(app =>
-          String(app.jobId) === String(job._id)
-        );
+        const jobApplications =
+          applications.filter(
+            app =>
+              String(app.jobId) ===
+              String(job._id)
+          );
 
-        let applicationsHTML = "";
 
-        if (jobApplications.length === 0) {
+        let applicationsHTML =
+          "";
+
+
+        if (
+          jobApplications.length === 0
+        ) {
 
           applicationsHTML = `
             <div class="application">
@@ -226,88 +279,165 @@
 
         } else {
 
-          jobApplications.forEach(app => {
+          jobApplications.forEach(
+            app => {
 
-            const status = app.status || "Pending";
-            const cls = statusClass(status);
+              const status =
+                app.status ||
+                "Pending";
 
-            let actionButton = "";
+              const cls =
+                statusClass(status);
 
-            if (status === "Pending" && job.status === "Open") {
-              actionButton = `
-                <button
-                  onclick="hireAssistant('${job._id}', '${app._id}', this)">
-                  Hire Assistant
-                </button>
+
+              let actionButton =
+                "";
+
+
+              if (
+                status === "Pending" &&
+                job.status === "Open"
+              ) {
+
+                actionButton = `
+                  <button
+                    onclick="hireAssistant(
+                      '${job._id}',
+                      '${app._id}',
+                      this
+                    )">
+                    Hire Assistant
+                  </button>
+                `;
+
+              }
+
+
+              let messageButton =
+                "";
+
+
+              if (
+                status === "Accepted"
+              ) {
+
+                messageButton = `
+                  <button
+                    onclick="openMessages(
+                      '${job._id}'
+                    )">
+                    Message Assistant
+                  </button>
+                `;
+
+              }
+
+
+              applicationsHTML += `
+                <div class="application">
+
+                  <h3>
+                    ${app.assistantName ||
+                    "Assistant"}
+                  </h3>
+
+                  <p>
+                    <strong>Email:</strong>
+                    ${app.assistantEmail ||
+                    "Not provided"}
+                  </p>
+
+                  <p>
+                    <strong>Applied:</strong>
+                    ${
+                      app.createdAt
+                        ? new Date(
+                            app.createdAt
+                          ).toLocaleDateString()
+                        : "N/A"
+                    }
+                  </p>
+
+                  <p class="status ${cls}">
+                    Status: ${status}
+                  </p>
+
+                  ${actionButton}
+
+                  ${messageButton}
+
+                </div>
               `;
+
             }
+          );
 
-            applicationsHTML += `
-              <div class="application">
-
-                <h3>${app.assistantName || "Assistant"}</h3>
-
-                <p>
-                  <strong>Email:</strong>
-                  ${app.assistantEmail || "Not provided"}
-                </p>
-
-                <p>
-                  <strong>Applied:</strong>
-                  ${app.createdAt
-                    ? new Date(app.createdAt).toLocaleDateString()
-                    : "N/A"}
-                </p>
-
-                <p class="status ${cls}">
-                  Status: ${status}
-                </p>
-
-                ${actionButton}
-
-              </div>
-            `;
-          });
         }
+
+
+        const budget =
+          job.budget || "0";
+
+
+        applicationsHTML =
+          applicationsHTML;
+
 
         jobsContainer.innerHTML += `
           <div class="job-card">
 
-            <h2>${job.title || "Untitled Job"}</h2>
+            <h2>
+              ${job.title ||
+              "Untitled Job"}
+            </h2>
 
             <p class="job-info">
               <strong>Service:</strong>
-              ${job.service || "Not specified"}
+              ${job.service ||
+              "Not specified"}
             </p>
 
             <p class="job-info">
               <strong>Budget:</strong>
-              $${job.budget || "0"}
+              $${String(budget).replace(
+                /^\$/,
+                ""
+              )}
             </p>
 
             <p class="job-info">
               <strong>Duration:</strong>
-              ${job.duration || "Not specified"}
+              ${job.duration ||
+              "Not specified"}
             </p>
 
             <p class="job-info">
               <strong>Description:</strong>
-              ${job.description || "No description"}
+              ${job.description ||
+              "No description"}
             </p>
 
             <p class="job-info">
               <strong>Job Status:</strong>
-              <span class="status ${statusClass(job.status)}">
-                ${job.status || "Open"}
+
+              <span
+                class="status
+                ${statusClass(job.status)}"
+              >
+                ${job.status ||
+                "Open"}
               </span>
             </p>
 
-            <h3>Applications</h3>
+            <h3>
+              Applications
+            </h3>
 
             ${applicationsHTML}
 
           </div>
         `;
+
       });
 
     } catch (error) {
@@ -316,70 +446,139 @@
 
       jobsContainer.innerHTML = `
         <div class="empty">
-          <p>Unable to load your jobs.</p>
-          <button onclick="loadJobs()">Try Again</button>
+
+          <p>
+            Unable to load your jobs.
+          </p>
+
+          <button
+            onclick="loadJobs()">
+            Try Again
+          </button>
+
         </div>
       `;
+
     }
+
   }
 
-  async function hireAssistant(jobId, applicationId, button) {
 
-    const confirmHire = confirm(
-      "Are you sure you want to hire this assistant?"
-    );
+  async function hireAssistant(
+    jobId,
+    applicationId,
+    button
+  ) {
+
+    const confirmHire =
+      confirm(
+        "Are you sure you want to hire this assistant?"
+      );
+
 
     if (!confirmHire) {
       return;
     }
 
-    button.disabled = true;
-    button.textContent = "Hiring...";
+
+    button.disabled =
+      true;
+
+    button.textContent =
+      "Hiring...";
+
 
     try {
 
-      const response = await fetch(API + "/hire-assistant", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          jobId: jobId,
-          applicationId: applicationId,
-          customerEmail: user.email
-        })
-      });
+      const response =
+        await fetch(
+          API +
+          "/hire-assistant",
+          {
 
-      const data = await response.json();
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body: JSON.stringify({
+
+              jobId:
+                jobId,
+
+              applicationId:
+                applicationId,
+
+              customerEmail:
+                user.email
+
+            })
+
+          }
+        );
+
+
+      const data =
+        await response.json();
+
 
       if (!response.ok) {
+
         throw new Error(
-          data.message || "Unable to hire assistant."
+          data.message ||
+          "Unable to hire assistant."
         );
+
       }
+
 
       showMessage(
         "Assistant hired successfully!",
         "success"
       );
 
+
       await loadJobs();
+
 
     } catch (error) {
 
       console.error(error);
 
+
       showMessage(
-        error.message || "Something went wrong.",
+        error.message ||
+        "Something went wrong.",
         "error"
       );
 
-      button.disabled = false;
-      button.textContent = "Hire Assistant";
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        "Hire Assistant";
+
     }
+
   }
 
+
+  function openMessages(jobId) {
+
+    window.location.href =
+      "messages.html?jobId=" +
+      encodeURIComponent(
+        jobId
+      );
+
+  }
+
+
   loadJobs();
+
 </script>
 
 </body>
