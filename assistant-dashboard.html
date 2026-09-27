@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,242 +11,270 @@
       font-family: Arial, sans-serif;
       background: #f4f7fb;
       margin: 0;
+      color: #222;
+    }
+
+    header {
+      background: #0b63ce;
+      color: white;
       padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
     }
 
     .container {
       max-width: 900px;
-      margin: auto;
-    }
-
-    h1 {
-      color: #123b72;
-      margin-bottom: 8px;
+      margin: 25px auto;
+      padding: 0 15px;
     }
 
     .welcome {
-      color: #555;
-      margin-bottom: 25px;
-    }
-
-    .account {
       background: white;
-      padding: 18px;
+      padding: 20px;
       border-radius: 10px;
       margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    }
-
-    .account strong {
-      color: #123b72;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
+      gap: 15px;
     }
 
     .card {
       background: white;
-      padding: 22px;
+      padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
     .card h2 {
-      color: #123b72;
-      font-size: 20px;
       margin-top: 0;
+      color: #0b63ce;
+      font-size: 20px;
     }
 
     .card p {
-      color: #555;
       line-height: 1.5;
     }
 
-    .card a,
-    .logout {
+    .card a {
       display: inline-block;
-      background: #123b72;
+      background: #0b63ce;
       color: white;
       text-decoration: none;
-      border: none;
-      padding: 11px 16px;
+      padding: 10px 15px;
       border-radius: 6px;
-      cursor: pointer;
-      font-size: 15px;
+      margin-top: 8px;
+    }
+
+    .hire-section {
+      background: white;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .hire-section h2 {
+      color: #0b63ce;
+    }
+
+    .hire {
+      background: #f4f7fb;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 12px;
+    }
+
+    .accepted {
+      color: green;
+      font-weight: bold;
+    }
+
+    .empty {
+      color: #666;
     }
 
     .logout {
-      margin-top: 25px;
+      display: block;
+      width: 100%;
+      max-width: 250px;
+      margin: 25px auto;
+      background: #d00000;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
+<header>
+  <h1>NexaAssist</h1>
+  <p>Assistant Dashboard</p>
+</header>
 
-    <h1>Assistant Dashboard</h1>
+<div class="container">
 
-    <p class="welcome">
-      Find jobs, manage your assistant profile, and connect with businesses that need your skills.
-    </p>
+  <div class="welcome">
+    <h2>Welcome, <span id="name">Assistant</span>!</h2>
+    <p>Manage your jobs, applications and hired work from your dashboard.</p>
+    <p><strong>Email:</strong> <span id="email"></span></p>
+  </div>
 
-    <div class="account">
+  <div class="cards">
 
-      <p>
-        <strong>Name:</strong>
-        <span id="userName"></span>
-      </p>
-
-      <p>
-        <strong>Email:</strong>
-        <span id="userEmail"></span>
-      </p>
-
-      <p>
-        <strong>Account:</strong>
-        Assistant
-      </p>
-
+    <div class="card">
+      <h2>Available Jobs</h2>
+      <p>Find jobs posted by customers and apply for suitable work.</p>
+      <a href="assistant-jobs.html">View Jobs</a>
     </div>
 
-
-    <div class="cards">
-
-
-      <div class="card">
-
-        <h2>Available Jobs</h2>
-
-        <p>
-          Browse jobs posted by businesses looking for virtual assistants.
-        </p>
-
-        <a href="assistant-jobs.html">
-          View Jobs
-        </a>
-
-      </div>
-
-
-      <div class="card">
-
-        <h2>My Applications</h2>
-
-        <p>
-          Track the jobs you have applied for and see their current status.
-        </p>
-
-        <a href="my-applications.html">
-          My Applications
-        </a>
-
-      </div>
-
-
-      <div class="card">
-
-        <h2>My Profile</h2>
-
-        <p>
-          Add your skills, services, experience, availability and preferred rate.
-        </p>
-
-        <a href="assistant-profile.html">
-          Edit Profile
-        </a>
-
-      </div>
-
-
-      <div class="card">
-
-        <h2>Messages</h2>
-
-        <p>
-          Communicate with businesses about your jobs and applications.
-        </p>
-
-        <a href="javascript:void(0);"
-           onclick="alert('Messaging will be connected next.');">
-          Messages
-        </a>
-
-      </div>
-
-
+    <div class="card">
+      <h2>My Applications</h2>
+      <p>Check the jobs you have applied for and their current status.</p>
+      <a href="my-applications.html">View Applications</a>
     </div>
 
+    <div class="card">
+      <h2>My Profile</h2>
+      <p>Update your skills, experience, rate and availability.</p>
+      <a href="assistant-profile.html">My Profile</a>
+    </div>
 
-    <button
-      class="logout"
-      onclick="logout()"
-    >
-      Logout
-    </button>
+    <div class="card">
+      <h2>Messages</h2>
+      <p>Communicate with customers about your work.</p>
+      <a href="#" onclick="openMessages(); return false;">Open Messages</a>
+    </div>
 
   </div>
 
+  <div class="hire-section">
 
-  <script>
+    <h2>My Hired Jobs</h2>
 
-    const user =
-      JSON.parse(
-        localStorage.getItem("nexaassistUser")
+    <div id="hires">
+      Loading your hired jobs...
+    </div>
+
+  </div>
+
+  <button class="logout" onclick="logout()">Logout</button>
+
+</div>
+
+<script>
+  const API = "https://nexaassist-backend-new-1.onrender.com";
+
+  const user = JSON.parse(
+    localStorage.getItem("nexaassistUser")
+  );
+
+  if (!user) {
+    window.location.href = "login.html";
+  }
+
+  if (user && user.role !== "assistant") {
+    window.location.href = "client-dashboard.html";
+  }
+
+  if (user) {
+    document.getElementById("name").textContent =
+      user.fullName || "Assistant";
+
+    document.getElementById("email").textContent =
+      user.email || "";
+  }
+
+  async function loadHires() {
+
+    const hiresContainer = document.getElementById("hires");
+
+    try {
+
+      const response = await fetch(
+        API + "/assistant-hires?email=" +
+        encodeURIComponent(user.email)
       );
 
+      const hires = await response.json();
 
-    if (!user) {
+      if (!hires.length) {
 
-      window.location.href =
-        "login.html";
+        hiresContainer.innerHTML = `
+          <p class="empty">
+            You have not been hired for any jobs yet.
+          </p>
+        `;
 
+        return;
+      }
+
+      hiresContainer.innerHTML = "";
+
+      hires.forEach(hire => {
+
+        hiresContainer.innerHTML += `
+          <div class="hire">
+
+            <h3>${hire.jobTitle || "Untitled Job"}</h3>
+
+            <p>
+              <strong>Customer:</strong>
+              ${hire.customerName || "Customer"}
+            </p>
+
+            <p>
+              <strong>Customer Email:</strong>
+              ${hire.customerEmail || "Not provided"}
+            </p>
+
+            <p>
+              <strong>Budget:</strong>
+              $${hire.budget || "0"}
+            </p>
+
+            <p class="accepted">
+              Status: ${hire.status || "Hired"}
+            </p>
+
+          </div>
+        `;
+      });
+
+    } catch (error) {
+
+      console.error(error);
+
+      hiresContainer.innerHTML = `
+        <p class="empty">
+          Unable to load hired jobs right now.
+        </p>
+      `;
     }
+  }
 
+  function openMessages() {
+    alert("Messaging will be connected next.");
+  }
 
-    if (
-      user &&
-      user.role !== "assistant"
-    ) {
+  function logout() {
+    localStorage.removeItem("nexaassistUser");
+    window.location.href = "login.html";
+  }
 
-      window.location.href =
-        "client-dashboard.html";
-
-    }
-
-
-    if (user) {
-
-      document.getElementById(
-        "userName"
-      ).textContent =
-        user.fullName || "";
-
-
-      document.getElementById(
-        "userEmail"
-      ).textContent =
-        user.email || "";
-
-    }
-
-
-    function logout() {
-
-      localStorage.removeItem(
-        "nexaassistUser"
-      );
-
-      window.location.href =
-        "login.html";
-
-    }
-
-  </script>
+  loadHires();
+</script>
 
 </body>
-
 </html>
