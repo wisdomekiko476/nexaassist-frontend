@@ -100,6 +100,20 @@
       color: #666;
     }
 
+    .message-button {
+      display: inline-block;
+      background: #0b63ce;
+      color: white;
+      text-decoration: none;
+      padding: 11px 18px;
+      border-radius: 6px;
+      margin-top: 8px;
+    }
+
+    .message-button:hover {
+      background: #084f9f;
+    }
+
     .logout {
       display: block;
       width: 100%;
@@ -127,37 +141,72 @@
 
   <div class="welcome">
     <h2>Welcome, <span id="name">Assistant</span>!</h2>
-    <p>Manage your jobs, applications and hired work from your dashboard.</p>
-    <p><strong>Email:</strong> <span id="email"></span></p>
+
+    <p>
+      Manage your jobs, applications and hired work from your dashboard.
+    </p>
+
+    <p>
+      <strong>Email:</strong>
+      <span id="email"></span>
+    </p>
   </div>
 
   <div class="cards">
 
     <div class="card">
       <h2>Available Jobs</h2>
-      <p>Find jobs posted by customers and apply for suitable work.</p>
-      <a href="assistant-jobs.html">View Jobs</a>
+
+      <p>
+        Find jobs posted by customers and apply for suitable work.
+      </p>
+
+      <a href="assistant-jobs.html">
+        View Jobs
+      </a>
     </div>
+
 
     <div class="card">
       <h2>My Applications</h2>
-      <p>Check the jobs you have applied for and their current status.</p>
-      <a href="my-applications.html">View Applications</a>
+
+      <p>
+        Check the jobs you have applied for and their current status.
+      </p>
+
+      <a href="my-applications.html">
+        View Applications
+      </a>
     </div>
+
 
     <div class="card">
       <h2>My Profile</h2>
-      <p>Update your skills, experience, rate and availability.</p>
-      <a href="assistant-profile.html">My Profile</a>
+
+      <p>
+        Update your skills, experience, rate and availability.
+      </p>
+
+      <a href="assistant-profile.html">
+        My Profile
+      </a>
     </div>
+
 
     <div class="card">
       <h2>Messages</h2>
-      <p>Communicate with customers about your work.</p>
-      <a href="#" onclick="openMessages(); return false;">Open Messages</a>
+
+      <p>
+        Communicate with customers about your work.
+      </p>
+
+      <a href="#" onclick="openMessages(); return false;">
+        Open Messages
+      </a>
     </div>
 
   </div>
+
 
   <div class="hire-section">
 
@@ -169,45 +218,90 @@
 
   </div>
 
-  <button class="logout" onclick="logout()">Logout</button>
+
+  <button
+    class="logout"
+    onclick="logout()">
+    Logout
+  </button>
 
 </div>
 
-<script>
-  const API = "https://nexaassist-backend-new-1.onrender.com";
 
-  const user = JSON.parse(
-    localStorage.getItem("nexaassistUser")
-  );
+<script>
+
+  const API =
+    "https://nexaassist-backend-new-1.onrender.com";
+
+
+  const user =
+    JSON.parse(
+      localStorage.getItem(
+        "nexaassistUser"
+      )
+    );
+
 
   if (!user) {
-    window.location.href = "login.html";
+
+    window.location.href =
+      "login.html";
+
   }
 
-  if (user && user.role !== "assistant") {
-    window.location.href = "client-dashboard.html";
+
+  if (
+    user &&
+    user.role !== "assistant"
+  ) {
+
+    window.location.href =
+      "client-dashboard.html";
+
   }
+
 
   if (user) {
-    document.getElementById("name").textContent =
-      user.fullName || "Assistant";
 
-    document.getElementById("email").textContent =
-      user.email || "";
+    document.getElementById(
+      "name"
+    ).textContent =
+      user.fullName ||
+      "Assistant";
+
+
+    document.getElementById(
+      "email"
+    ).textContent =
+      user.email ||
+      "";
+
   }
+
 
   async function loadHires() {
 
-    const hiresContainer = document.getElementById("hires");
+    const hiresContainer =
+      document.getElementById(
+        "hires"
+      );
+
 
     try {
 
-      const response = await fetch(
-        API + "/assistant-hires?email=" +
-        encodeURIComponent(user.email)
-      );
+      const response =
+        await fetch(
+          API +
+          "/assistant-hires?email=" +
+          encodeURIComponent(
+            user.email
+          )
+        );
 
-      const hires = await response.json();
+
+      const hires =
+        await response.json();
+
 
       if (!hires.length) {
 
@@ -220,60 +314,147 @@
         return;
       }
 
-      hiresContainer.innerHTML = "";
 
-      hires.forEach(hire => {
+      hiresContainer.innerHTML =
+        "";
 
-        hiresContainer.innerHTML += `
-          <div class="hire">
 
-            <h3>${hire.jobTitle || "Untitled Job"}</h3>
+      hires.forEach(
+        hire => {
 
-            <p>
-              <strong>Customer:</strong>
-              ${hire.customerName || "Customer"}
-            </p>
+          const budget =
+            hire.budget ||
+            "0";
 
-            <p>
-              <strong>Customer Email:</strong>
-              ${hire.customerEmail || "Not provided"}
-            </p>
 
-            <p>
-              <strong>Budget:</strong>
-              $${hire.budget || "0"}
-            </p>
+          hiresContainer.innerHTML += `
+            <div class="hire">
 
-            <p class="accepted">
-              Status: ${hire.status || "Hired"}
-            </p>
+              <h3>
+                ${hire.jobTitle ||
+                "Untitled Job"}
+              </h3>
 
-          </div>
-        `;
-      });
+              <p>
+                <strong>Customer:</strong>
+                ${hire.customerName ||
+                "Customer"}
+              </p>
+
+              <p>
+                <strong>Customer Email:</strong>
+                ${hire.customerEmail ||
+                "Not provided"}
+              </p>
+
+              <p>
+                <strong>Budget:</strong>
+                $${String(budget).replace(
+                  /^\$/,
+                  ""
+                )}
+              </p>
+
+              <p class="accepted">
+                Status:
+                ${hire.status ||
+                "Hired"}
+              </p>
+
+              <a
+                class="message-button"
+                href="messages.html?jobId=${encodeURIComponent(
+                  hire.jobId
+                )}">
+                Message Customer
+              </a>
+
+            </div>
+          `;
+
+        }
+      );
+
 
     } catch (error) {
 
       console.error(error);
+
 
       hiresContainer.innerHTML = `
         <p class="empty">
           Unable to load hired jobs right now.
         </p>
       `;
+
     }
+
   }
 
-  function openMessages() {
-    alert("Messaging will be connected next.");
+
+  async function openMessages() {
+
+    try {
+
+      const response =
+        await fetch(
+          API +
+          "/assistant-hires?email=" +
+          encodeURIComponent(
+            user.email
+          )
+        );
+
+
+      const hires =
+        await response.json();
+
+
+      if (!hires.length) {
+
+        alert(
+          "You have no hired jobs yet."
+        );
+
+        return;
+
+      }
+
+
+      window.location.href =
+        "messages.html?jobId=" +
+        encodeURIComponent(
+          hires[0].jobId
+        );
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Unable to open messages right now."
+      );
+
+    }
+
   }
+
 
   function logout() {
-    localStorage.removeItem("nexaassistUser");
-    window.location.href = "login.html";
+
+    localStorage.removeItem(
+      "nexaassistUser"
+    );
+
+    window.location.href =
+      "login.html";
+
   }
 
+
   loadHires();
+
 </script>
 
 </body>
