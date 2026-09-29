@@ -103,6 +103,63 @@
       background: #b02a37;
     }
 
+    .notification-section {
+      margin-top: 20px;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .notification-section h3 {
+      margin-bottom: 15px;
+    }
+
+    .notification {
+      background: #f5f7fb;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 12px;
+      border-left: 4px solid #0b5ed7;
+    }
+
+    .notification.unread {
+      background: #eef6ff;
+    }
+
+    .notification h4 {
+      margin-bottom: 8px;
+    }
+
+    .notification p {
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .notification small {
+      display: block;
+      margin-top: 8px;
+      color: #777;
+    }
+
+    .read-button {
+      margin-top: 10px;
+      background: #555;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .read-button:hover {
+      background: #333;
+    }
+
+    .empty {
+      color: #777;
+    }
+
     .account {
       margin-top: 20px;
       background: white;
@@ -207,6 +264,17 @@
     </div>
 
 
+    <div class="notification-section">
+
+      <h3>Notifications</h3>
+
+      <div id="notifications">
+        Loading notifications...
+      </div>
+
+    </div>
+
+
     <div class="account">
 
       <h3>My Account</h3>
@@ -238,32 +306,216 @@
 
   <script>
 
-    const userData = localStorage.getItem("nexaassistUser");
+    const API =
+      "https://nexaassist-backend-new-1.onrender.com";
+
+
+    const userData =
+      localStorage.getItem(
+        "nexaassistUser"
+      );
+
+
+    let user = null;
+
 
     if (!userData) {
 
-      window.location.href = "login.html";
+      window.location.href =
+        "login.html";
 
     } else {
 
-      const user = JSON.parse(userData);
+      user =
+        JSON.parse(userData);
 
-      document.getElementById("userName").textContent =
-        user.fullName || "Customer";
 
-      document.getElementById("accountName").textContent =
-        user.fullName || "Not available";
+      document.getElementById(
+        "userName"
+      ).textContent =
+        user.fullName ||
+        "Customer";
 
-      document.getElementById("accountEmail").textContent =
-        user.email || "Not available";
+
+      document.getElementById(
+        "accountName"
+      ).textContent =
+        user.fullName ||
+        "Not available";
+
+
+      document.getElementById(
+        "accountEmail"
+      ).textContent =
+        user.email ||
+        "Not available";
+
+    }
+
+
+    async function loadNotifications() {
+
+      const container =
+        document.getElementById(
+          "notifications"
+        );
+
+
+      try {
+
+        const response =
+          await fetch(
+            API +
+            "/notifications?email=" +
+            encodeURIComponent(
+              user.email
+            )
+          );
+
+
+        const notifications =
+          await response.json();
+
+
+        if (!notifications.length) {
+
+          container.innerHTML = `
+            <p class="empty">
+              You have no notifications yet.
+            </p>
+          `;
+
+          return;
+
+        }
+
+
+        container.innerHTML =
+          "";
+
+
+        notifications.forEach(
+          notification => {
+
+            const date =
+              notification.createdAt
+                ? new Date(
+                    notification.createdAt
+                  ).toLocaleString()
+                : "";
+
+
+            container.innerHTML += `
+              <div class="notification ${
+                notification.read
+                  ? ""
+                  : "unread"
+              }">
+
+                <h4>
+                  ${notification.title ||
+                  "Notification"}
+                </h4>
+
+                <p>
+                  ${notification.message ||
+                  ""}
+                </p>
+
+                <small>
+                  ${date}
+                </small>
+
+                ${
+                  notification.read
+                    ? ""
+                    : `
+                      <button
+                        class="read-button"
+                        onclick="markAsRead('${notification._id}')">
+                        Mark as Read
+                      </button>
+                    `
+                }
+
+              </div>
+            `;
+
+          }
+        );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+
+        container.innerHTML = `
+          <p class="empty">
+            Unable to load notifications right now.
+          </p>
+        `;
+
+      }
+
+    }
+
+
+    async function markAsRead(
+      notificationId
+    ) {
+
+      try {
+
+        const response =
+          await fetch(
+            API +
+            "/notifications/" +
+            notificationId +
+            "/read",
+            {
+              method: "PATCH"
+            }
+          );
+
+
+        if (!response.ok) {
+
+          alert(
+            "Unable to mark notification as read."
+          );
+
+          return;
+
+        }
+
+
+        loadNotifications();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+
+        alert(
+          "Unable to update notification."
+        );
+
+      }
+
     }
 
 
     function logout() {
 
-      localStorage.removeItem("nexaassistUser");
+      localStorage.removeItem(
+        "nexaassistUser"
+      );
 
-      window.location.href = "login.html";
+      window.location.href =
+        "login.html";
+
     }
 
 
@@ -275,8 +527,10 @@
 
     }
 
+
+    loadNotifications();
+
   </script>
 
 </body>
 </html>
-        
