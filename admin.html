@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>NexaAssist Admin Dashboard</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      padding: 0;
+      color: #222;
+    }
+
+    header {
+      background: #0b5ed7;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 6px;
+    }
+
+    header p {
+      margin: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 20px auto;
+      padding: 15px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background: #0b5ed7;
+      color: white;
+      border: none;
+      padding: 11px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .logout {
+      background: #dc3545;
+    }
+
+    .status {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #555;
+    }
+
+    .number {
+      font-size: 32px;
+      font-weight: bold;
+      color: #0b5ed7;
+    }
+
+    section {
+      background: white;
+      margin-bottom: 20px;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow-x: auto;
+    }
+
+    section h2 {
+      margin-top: 0;
+      color: #0b5ed7;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 650px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f1f4f8;
+    }
+
+    .empty {
+      color: #777;
+      padding: 10px 0;
+    }
+
+    .error {
+      color: #dc3545;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>NexaAssist Admin Dashboard</h1>
+  <p>Platform Management</p>
+</header>
+
+<div class="container">
+
+  <div class="actions">
+    <button onclick="loadDashboard()">Refresh Dashboard</button>
+    <button class="logout" onclick="logout()">Logout</button>
+  </div>
+
+  <div class="status" id="status">
+    Loading admin dashboard...
+  </div>
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>Total Users</h3>
+      <div class="number" id="usersCount">0</div>
+    </div>
+
+    <div class="card">
+      <h3>Assistants</h3>
+      <div class="number" id="assistantsCount">0</div>
+    </div>
+
+    <div class="card">
+      <h3>Jobs</h3>
+      <div class="number" id="jobsCount">0</div>
+    </div>
+
+    <div class="card">
+      <h3>Applications</h3>
+      <div class="number" id="applicationsCount">0</div>
+    </div>
+
+    <div class="card">
+      <h3>Hires</h3>
+      <div class="number" id="hiresCount">0</div>
+    </div>
+
+  </div>
+
+  <section>
+    <h2>Users</h2>
+    <div id="usersTable">Loading...</div>
+  </section>
+
+  <section>
+    <h2>Assistants</h2>
+    <div id="assistantsTable">Loading...</div>
+  </section>
+
+  <section>
+    <h2>Jobs</h2>
+    <div id="jobsTable">Loading...</div>
+  </section>
+
+  <section>
+    <h2>Applications</h2>
+    <div id="applicationsTable">Loading...</div>
+  </section>
+
+  <section>
+    <h2>Hires</h2>
+    <div id="hiresTable">Loading...</div>
+  </section>
+
+</div>
+
+<script>
+
+const API =
+  "https://nexaassist-backend-new-1.onrender.com";
+
+const user =
+  JSON.parse(
+    localStorage.getItem("nexaassistUser")
+  );
+
+if (!user) {
+
+  document.getElementById("status").innerHTML =
+    '<span class="error">Please log in first.</span>';
+
+} else {
+
+  loadDashboard();
+
+}
+
+async function getData(endpoint) {
+
+  const response =
+    await fetch(
+      API + endpoint +
+      "?email=" +
+      encodeURIComponent(user.email)
+    );
+
+  const data =
+    await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data.message ||
+      "Request failed"
+    );
+  }
+
+  return data;
+
+}
+
+async function loadDashboard() {
+
+  if (!user) return;
+
+  document.getElementById("status").innerText =
+    "Loading dashboard...";
+
+  try {
+
+    const [
+      users,
+      assistants,
+      jobs,
+      applications,
+      hires
+    ] = await Promise.all([
+
+      getData("/admin/users"),
+
+      getData("/admin/assistants"),
+
+      getData("/admin/jobs"),
+
+      getData("/admin/applications"),
+
+      getData("/admin/hires")
+
+    ]);
+
+    document.getElementById("usersCount").innerText =
+      users.length;
+
+    document.getElementById("assistantsCount").innerText =
+      assistants.length;
+
+    document.getElementById("jobsCount").innerText =
+      jobs.length;
+
+    document.getElementById("applicationsCount").innerText =
+      applications.length;
+
+    document.getElementById("hiresCount").innerText =
+      hires.length;
+
+    renderUsers(users);
+
+    renderAssistants(assistants);
+
+    renderJobs(jobs);
+
+    renderApplications(applications);
+
+    renderHires(hires);
+
+    document.getElementById("status").innerText =
+      "Admin dashboard loaded successfully.";
+
+  } catch (error) {
+
+    console.log(error);
+
+    document.getElementById("status").innerHTML =
+      '<span class="error">' +
+      error.message +
+      "</span>";
+
+  }
+
+}
+
+function renderUsers(users) {
+
+  if (!users.length) {
+
+    document.getElementById("usersTable").innerHTML =
+      '<div class="empty">No users found.</div>';
+
+    return;
+
+  }
+
+  let html = `
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Created</th>
+      </tr>
+  `;
+
+  users.forEach(user => {
+
+    html += `
+      <tr>
+        <td>${escapeHTML(user.fullName || "—")}</td>
+        <td>${escapeHTML(user.email || "—")}</td>
+        <td>${escapeHTML(user.role || "—")}</td>
+        <td>${formatDate(user.createdAt)}</td>
+      </tr>
+    `;
+
+  });
+
+  html += "</table>";
+
+  document.getElementById("usersTable").innerHTML =
+    html;
+
+}
+
+function renderAssistants(assistants) {
+
+  if (!assistants.length) {
+
+    document.getElementById("assistantsTable").innerHTML =
+      '<div class="empty">No assistant profiles found.</div>';
+
+    return;
+
+  }
+
+  let html = `
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Main Service</th>
+        <th>Rate</th>
+        <th>Availability</th>
+      </tr>
+  `;
+
+  assistants.forEach(assistant => {
+
+    html += `
+      <tr>
+        <td>${escapeHTML(assistant.fullName || "—")}</td>
+        <td>${escapeHTML(assistant.email || "—")}</td>
+        <td>${escapeHTML(assistant.mainService || "—")}</td>
+        <td>${escapeHTML(assistant.preferredRate || "—")}</td>
+        <td>${escapeHTML(assistant.availability || "—")}</td>
+      </tr>
+    `;
+
+  });
+
+  html += "</table>";
+
+  document.getElementById("assistantsTable").innerHTML =
+    html;
+
+}
+
+function renderJobs(jobs) {
+
+  if (!jobs.length) {
+
+    document.getElementById("jobsTable").innerHTML =
+      '<div class="empty">No jobs found.</div>';
+
+    return;
+
+  }
+
+  let html = `
+    <table>
+      <tr>
+        <th>Job Title</th>
+        <th>Customer</th>
+        <th>Service</th>
+        <th>Budget</th>
+        <th>Status</th>
+      </tr>
+  `;
+
+  jobs.forEach(job => {
+
+    html += `
+      <tr>
+        <td>${escapeHTML(job.title || job.jobTitle || "—")}</td>
+        <td>${escapeHTML(job.customerEmail || job.email || "—")}</td>
+        <td>${escapeHTML(job.service || job.serviceNeeded || "—")}</td>
+        <td>$${escapeHTML(String(job.budget || "0").replace(/^\$/, ""))}</td>
+        <td>${escapeHTML(job.status || "Open")}</td>
+      </tr>
+    `;
+
+  });
+
+  html += "</table>";
+
+  document.getElementById("jobsTable").innerHTML =
+    html;
+
+}
+
+function renderApplications(applications) {
+
+  if (!applications.length) {
+
+    document.getElementById("applicationsTable").innerHTML =
+      '<div class="empty">No applications found.</div>';
+
+    return;
+
+  }
+
+  let html = `
+    <table>
+      <tr>
+        <th>Job ID</th>
+        <th>Assistant</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Applied</th>
+      </tr>
+  `;
+
+  applications.forEach(application => {
+
+    html += `
+      <tr>
+        <td>${escapeHTML(String(application.jobId || "—"))}</td>
+        <td>${escapeHTML(application.assistantName || "—")}</td>
+        <td>${escapeHTML(application.assistantEmail || "—")}</td>
+        <td>${escapeHTML(application.status || "Pending")}</td>
+        <td>${formatDate(application.createdAt)}</td>
+      </tr>
+    `;
+
+  });
+
+  html += "</table>";
+
+  document.getElementById("applicationsTable").innerHTML =
+    html;
+
+}
+
+function renderHires(hires) {
+
+  if (!hires.length) {
+
+    document.getElementById("hiresTable").innerHTML =
+      '<div class="empty">No hires found.</div>';
+
+    return;
+
+  }
+
+  let html = `
+    <table>
+      <tr>
+        <th>Job ID</th>
+        <th>Customer</th>
+        <th>Assistant</th>
+        <th>Assistant Email</th>
+        <th>Created</th>
+      </tr>
+  `;
+
+  hires.forEach(hire => {
+
+    html += `
+      <tr>
+        <td>${escapeHTML(String(hire.jobId || "—"))}</td>
+        <td>${escapeHTML(hire.customerEmail || "—")}</td>
+        <td>${escapeHTML(hire.assistantName || "—")}</td>
+        <td>${escapeHTML(hire.assistantEmail || "—")}</td>
+        <td>${formatDate(hire.createdAt)}</td>
+      </tr>
+    `;
+
+  });
+
+  html += "</table>";
+
+  document.getElementById("hiresTable").innerHTML =
+    html;
+
+}
+
+function formatDate(date) {
+
+  if (!date) return "—";
+
+  try {
+
+    return new Date(date).toLocaleString();
+
+  } catch {
+
+    return "—";
+
+  }
+
+}
+
+function escapeHTML(value) {
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+function logout() {
+
+  localStorage.removeItem(
+    "nexaassistUser"
+  );
+
+  window.location.href =
+    "login.html";
+
+}
+
+</script>
+
+</body>
+</html>
