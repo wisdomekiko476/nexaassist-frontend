@@ -114,6 +114,59 @@
       background: #084f9f;
     }
 
+    .notification-section {
+      background: white;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .notification-section h2 {
+      color: #0b63ce;
+      margin-top: 0;
+    }
+
+    .notification {
+      background: #f4f7fb;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 12px;
+      border-left: 4px solid #0b63ce;
+    }
+
+    .notification.unread {
+      background: #eef6ff;
+    }
+
+    .notification h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .notification p {
+      margin: 7px 0;
+      line-height: 1.5;
+    }
+
+    .notification small {
+      color: #666;
+    }
+
+    .read-button {
+      background: #555;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .read-button:hover {
+      background: #333;
+    }
+
     .logout {
       display: block;
       width: 100%;
@@ -208,6 +261,17 @@
   </div>
 
 
+  <div class="notification-section">
+
+    <h2>Notifications</h2>
+
+    <div id="notifications">
+      Loading notifications...
+    </div>
+
+  </div>
+
+
   <div class="hire-section">
 
     <h2>My Hired Jobs</h2>
@@ -275,6 +339,159 @@
     ).textContent =
       user.email ||
       "";
+
+  }
+
+
+  async function loadNotifications() {
+
+    const notificationsContainer =
+      document.getElementById(
+        "notifications"
+      );
+
+
+    try {
+
+      const response =
+        await fetch(
+          API +
+          "/notifications?email=" +
+          encodeURIComponent(
+            user.email
+          )
+        );
+
+
+      const notifications =
+        await response.json();
+
+
+      if (!notifications.length) {
+
+        notificationsContainer.innerHTML = `
+          <p class="empty">
+            You have no notifications yet.
+          </p>
+        `;
+
+        return;
+
+      }
+
+
+      notificationsContainer.innerHTML =
+        "";
+
+
+      notifications.forEach(
+        notification => {
+
+          const date =
+            notification.createdAt
+              ? new Date(
+                  notification.createdAt
+                ).toLocaleString()
+              : "";
+
+
+          notificationsContainer.innerHTML += `
+            <div class="notification ${
+              notification.read
+                ? ""
+                : "unread"
+            }">
+
+              <h3>
+                ${notification.title ||
+                "Notification"}
+              </h3>
+
+              <p>
+                ${notification.message ||
+                ""}
+              </p>
+
+              <small>
+                ${date}
+              </small>
+
+              ${
+                notification.read
+                  ? ""
+                  : `
+                    <br>
+
+                    <button
+                      class="read-button"
+                      onclick="markAsRead('${notification._id}')">
+                      Mark as Read
+                    </button>
+                  `
+              }
+
+            </div>
+          `;
+
+        }
+      );
+
+
+    } catch (error) {
+
+      console.error(error);
+
+
+      notificationsContainer.innerHTML = `
+        <p class="empty">
+          Unable to load notifications right now.
+        </p>
+      `;
+
+    }
+
+  }
+
+
+  async function markAsRead(notificationId) {
+
+    try {
+
+      const response =
+        await fetch(
+          API +
+          "/notifications/" +
+          notificationId +
+          "/read",
+          {
+            method: "PATCH"
+          }
+        );
+
+
+      if (!response.ok) {
+
+        alert(
+          "Unable to mark notification as read."
+        );
+
+        return;
+
+      }
+
+
+      loadNotifications();
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Unable to update notification."
+      );
+
+    }
 
   }
 
@@ -452,6 +669,8 @@
 
   }
 
+
+  loadNotifications();
 
   loadHires();
 
