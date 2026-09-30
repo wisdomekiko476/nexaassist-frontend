@@ -11,98 +11,56 @@
       font-family: Arial, sans-serif;
       background: #f4f7fb;
       margin: 0;
-      padding: 0;
+      padding: 20px;
       color: #222;
     }
 
-    header {
-      background: #0b5ed7;
-      color: white;
-      padding: 20px;
-      text-align: center;
+    h1 {
+      color: #0b5ed7;
+      margin-bottom: 5px;
     }
 
-    header h1 {
-      margin: 0 0 6px;
-    }
-
-    header p {
-      margin: 0;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 20px auto;
-      padding: 15px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    button {
-      background: #0b5ed7;
-      color: white;
-      border: none;
-      padding: 11px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      opacity: 0.9;
-    }
-
-    .logout {
-      background: #dc3545;
-    }
-
-    .status {
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    .subtitle {
+      color: #666;
+      margin-bottom: 25px;
     }
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 15px;
-      margin-bottom: 25px;
+      margin-bottom: 30px;
     }
 
     .card {
       background: white;
       padding: 20px;
-      border-radius: 8px;
+      border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
     .card h3 {
-      margin-top: 0;
+      margin: 0 0 10px;
       color: #555;
+      font-size: 15px;
     }
 
     .number {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: bold;
       color: #0b5ed7;
     }
 
-    section {
+    .section {
       background: white;
-      margin-bottom: 20px;
       padding: 20px;
-      border-radius: 8px;
+      margin-bottom: 25px;
+      border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       overflow-x: auto;
     }
 
-    section h2 {
+    .section h2 {
       margin-top: 0;
       color: #0b5ed7;
     }
@@ -110,52 +68,71 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 650px;
+      min-width: 600px;
     }
 
     th,
     td {
+      padding: 12px;
       border-bottom: 1px solid #ddd;
-      padding: 10px;
       text-align: left;
-      font-size: 14px;
     }
 
     th {
-      background: #f1f4f8;
+      background: #f0f4f9;
     }
 
-    .empty {
-      color: #777;
-      padding: 10px 0;
+    button {
+      border: none;
+      padding: 9px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
     }
 
-    .error {
+    .verify-btn {
+      background: #198754;
+      color: white;
+    }
+
+    .unverify-btn {
+      background: #dc3545;
+      color: white;
+    }
+
+    .status-verified {
+      color: #198754;
+      font-weight: bold;
+    }
+
+    .status-not {
       color: #dc3545;
+      font-weight: bold;
+    }
+
+    .message {
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      display: none;
+      background: #e7f3ff;
+      color: #0b5ed7;
+    }
+
+    .loading {
+      color: #666;
     }
   </style>
 </head>
 
 <body>
 
-<header>
   <h1>NexaAssist Admin Dashboard</h1>
-  <p>Platform Management</p>
-</header>
+  <p class="subtitle">Manage users, assistants, jobs, applications and hires.</p>
 
-<div class="container">
-
-  <div class="actions">
-    <button onclick="loadDashboard()">Refresh Dashboard</button>
-    <button class="logout" onclick="logout()">Logout</button>
-  </div>
-
-  <div class="status" id="status">
-    Loading admin dashboard...
-  </div>
+  <div id="message" class="message"></div>
 
   <div class="cards">
-
     <div class="card">
       <h3>Total Users</h3>
       <div class="number" id="usersCount">0</div>
@@ -180,402 +157,491 @@
       <h3>Hires</h3>
       <div class="number" id="hiresCount">0</div>
     </div>
-
   </div>
 
-  <section>
+  <div class="section">
     <h2>Users</h2>
-    <div id="usersTable">Loading...</div>
-  </section>
 
-  <section>
-    <h2>Assistants</h2>
-    <div id="assistantsTable">Loading...</div>
-  </section>
+    <div id="usersLoading" class="loading">
+      Loading users...
+    </div>
 
-  <section>
+    <table id="usersTable" style="display:none;">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+
+      <tbody id="usersBody"></tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Assistant Verification</h2>
+
+    <div id="assistantsLoading" class="loading">
+      Loading assistants...
+    </div>
+
+    <table id="assistantsTable" style="display:none;">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Service</th>
+          <th>Rate</th>
+          <th>Verification</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody id="assistantsBody"></tbody>
+    </table>
+  </div>
+
+  <div class="section">
     <h2>Jobs</h2>
-    <div id="jobsTable">Loading...</div>
-  </section>
 
-  <section>
+    <div id="jobsLoading" class="loading">
+      Loading jobs...
+    </div>
+
+    <table id="jobsTable" style="display:none;">
+      <thead>
+        <tr>
+          <th>Job Title</th>
+          <th>Customer</th>
+          <th>Budget</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody id="jobsBody"></tbody>
+    </table>
+  </div>
+
+  <div class="section">
     <h2>Applications</h2>
-    <div id="applicationsTable">Loading...</div>
-  </section>
 
-  <section>
+    <div id="applicationsLoading" class="loading">
+      Loading applications...
+    </div>
+
+    <table id="applicationsTable" style="display:none;">
+      <thead>
+        <tr>
+          <th>Job</th>
+          <th>Assistant</th>
+          <th>Email</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody id="applicationsBody"></tbody>
+    </table>
+  </div>
+
+  <div class="section">
     <h2>Hires</h2>
-    <div id="hiresTable">Loading...</div>
-  </section>
 
-</div>
+    <div id="hiresLoading" class="loading">
+      Loading hires...
+    </div>
 
-<script>
+    <table id="hiresTable" style="display:none;">
+      <thead>
+        <tr>
+          <th>Job</th>
+          <th>Customer</th>
+          <th>Assistant</th>
+          <th>Status</th>
+        </tr>
+      </thead>
 
-const API =
-  "https://nexaassist-backend-new-1.onrender.com";
+      <tbody id="hiresBody"></tbody>
+    </table>
+  </div>
 
-const user =
-  JSON.parse(
-    localStorage.getItem("nexaassistUser")
-  );
+  <script>
 
-if (!user) {
+    const API =
+      "https://nexaassist-backend-new-1.onrender.com";
 
-  document.getElementById("status").innerHTML =
-    '<span class="error">Please log in first.</span>';
+    const user =
+      JSON.parse(localStorage.getItem("nexaassistUser"));
 
-} else {
+    if (!user || user.role !== "admin") {
 
-  loadDashboard();
+      alert("Admin access required.");
 
-}
+      window.location.href = "login.html";
 
-async function getData(endpoint) {
+    }
 
-  const response =
-    await fetch(
-      API + endpoint +
-      "?email=" +
-      encodeURIComponent(user.email)
-    );
+    const adminEmail =
+      user.email;
 
-  const data =
-    await response.json();
+    function showMessage(text) {
 
-  if (!response.ok) {
-    throw new Error(
-      data.message ||
-      "Request failed"
-    );
-  }
+      const box =
+        document.getElementById("message");
 
-  return data;
+      box.textContent = text;
 
-}
+      box.style.display = "block";
 
-async function loadDashboard() {
+      setTimeout(() => {
 
-  if (!user) return;
+        box.style.display = "none";
 
-  document.getElementById("status").innerText =
-    "Loading dashboard...";
+      }, 3000);
+    }
 
-  try {
+    async function loadUsers() {
 
-    const [
-      users,
-      assistants,
-      jobs,
-      applications,
-      hires
-    ] = await Promise.all([
+      try {
 
-      getData("/admin/users"),
+        const response =
+          await fetch(
+            `${API}/admin/users?email=${encodeURIComponent(adminEmail)}`
+          );
 
-      getData("/admin/assistants"),
+        const users =
+          await response.json();
 
-      getData("/admin/jobs"),
+        document.getElementById("usersCount").textContent =
+          users.length;
 
-      getData("/admin/applications"),
+        const body =
+          document.getElementById("usersBody");
 
-      getData("/admin/hires")
+        body.innerHTML = "";
 
-    ]);
+        users.forEach(user => {
 
-    document.getElementById("usersCount").innerText =
-      users.length;
+          const row =
+            document.createElement("tr");
 
-    document.getElementById("assistantsCount").innerText =
-      assistants.length;
+          row.innerHTML = `
+            <td>${user.fullName || "-"}</td>
+            <td>${user.email || "-"}</td>
+            <td>${user.role || "-"}</td>
+          `;
 
-    document.getElementById("jobsCount").innerText =
-      jobs.length;
+          body.appendChild(row);
 
-    document.getElementById("applicationsCount").innerText =
-      applications.length;
+        });
 
-    document.getElementById("hiresCount").innerText =
-      hires.length;
+        document.getElementById("usersLoading").style.display =
+          "none";
 
-    renderUsers(users);
+        document.getElementById("usersTable").style.display =
+          "table";
 
-    renderAssistants(assistants);
+      } catch (error) {
 
-    renderJobs(jobs);
+        document.getElementById("usersLoading").textContent =
+          "Failed to load users.";
 
-    renderApplications(applications);
+      }
+    }
 
-    renderHires(hires);
+    async function loadAssistants() {
 
-    document.getElementById("status").innerText =
-      "Admin dashboard loaded successfully.";
+      try {
 
-  } catch (error) {
+        const response =
+          await fetch(
+            `${API}/admin/assistants?email=${encodeURIComponent(adminEmail)}`
+          );
 
-    console.log(error);
+        const assistants =
+          await response.json();
 
-    document.getElementById("status").innerHTML =
-      '<span class="error">' +
-      error.message +
-      "</span>";
+        document.getElementById("assistantsCount").textContent =
+          assistants.length;
 
-  }
+        const body =
+          document.getElementById("assistantsBody");
 
-}
+        body.innerHTML = "";
 
-function renderUsers(users) {
+        assistants.forEach(assistant => {
 
-  if (!users.length) {
+          const verified =
+            assistant.verified === true;
 
-    document.getElementById("usersTable").innerHTML =
-      '<div class="empty">No users found.</div>';
+          const row =
+            document.createElement("tr");
 
-    return;
+          row.innerHTML = `
+            <td>${assistant.fullName || "-"}</td>
 
-  }
+            <td>${assistant.email || "-"}</td>
 
-  let html = `
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Created</th>
-      </tr>
-  `;
+            <td>${assistant.service || "-"}</td>
 
-  users.forEach(user => {
+            <td>${assistant.rate || "-"}</td>
 
-    html += `
-      <tr>
-        <td>${escapeHTML(user.fullName || "—")}</td>
-        <td>${escapeHTML(user.email || "—")}</td>
-        <td>${escapeHTML(user.role || "—")}</td>
-        <td>${formatDate(user.createdAt)}</td>
-      </tr>
-    `;
+            <td>
+              ${
+                verified
+                  ? '<span class="status-verified">Verified</span>'
+                  : '<span class="status-not">Not Verified</span>'
+              }
+            </td>
 
-  });
+            <td>
+              <button
+                class="${verified ? "unverify-btn" : "verify-btn"}"
+                onclick="changeVerification('${assistant._id}', ${!verified})"
+              >
+                ${verified ? "Unverify" : "Verify"}
+              </button>
+            </td>
+          `;
 
-  html += "</table>";
+          body.appendChild(row);
 
-  document.getElementById("usersTable").innerHTML =
-    html;
+        });
 
-}
+        document.getElementById("assistantsLoading").style.display =
+          "none";
 
-function renderAssistants(assistants) {
+        document.getElementById("assistantsTable").style.display =
+          "table";
 
-  if (!assistants.length) {
+      } catch (error) {
 
-    document.getElementById("assistantsTable").innerHTML =
-      '<div class="empty">No assistant profiles found.</div>';
+        document.getElementById("assistantsLoading").textContent =
+          "Failed to load assistants.";
 
-    return;
+      }
+    }
 
-  }
+    async function changeVerification(
+      assistantId,
+      verified
+    ) {
 
-  let html = `
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Main Service</th>
-        <th>Rate</th>
-        <th>Availability</th>
-      </tr>
-  `;
+      const action =
+        verified ? "verify" : "remove verification";
 
-  assistants.forEach(assistant => {
+      const confirmed =
+        confirm(
+          `Are you sure you want to ${action} this assistant?`
+        );
 
-    html += `
-      <tr>
-        <td>${escapeHTML(assistant.fullName || "—")}</td>
-        <td>${escapeHTML(assistant.email || "—")}</td>
-        <td>${escapeHTML(assistant.mainService || "—")}</td>
-        <td>${escapeHTML(assistant.preferredRate || "—")}</td>
-        <td>${escapeHTML(assistant.availability || "—")}</td>
-      </tr>
-    `;
+      if (!confirmed) {
+        return;
+      }
 
-  });
+      try {
 
-  html += "</table>";
+        const response =
+          await fetch(
+            `${API}/admin/assistants/${assistantId}/verify?email=${encodeURIComponent(adminEmail)}`,
+            {
+              method: "PATCH",
 
-  document.getElementById("assistantsTable").innerHTML =
-    html;
+              headers: {
+                "Content-Type": "application/json"
+              },
 
-}
+              body: JSON.stringify({
+                verified: verified
+              })
+            }
+          );
 
-function renderJobs(jobs) {
+        const data =
+          await response.json();
 
-  if (!jobs.length) {
+        if (!response.ok) {
 
-    document.getElementById("jobsTable").innerHTML =
-      '<div class="empty">No jobs found.</div>';
+          alert(
+            data.message ||
+            "Verification update failed."
+          );
 
-    return;
+          return;
+        }
 
-  }
+        showMessage(
+          data.message ||
+          "Verification updated."
+        );
 
-  let html = `
-    <table>
-      <tr>
-        <th>Job Title</th>
-        <th>Customer</th>
-        <th>Service</th>
-        <th>Budget</th>
-        <th>Status</th>
-      </tr>
-  `;
+        loadAssistants();
 
-  jobs.forEach(job => {
+      } catch (error) {
 
-    html += `
-      <tr>
-        <td>${escapeHTML(job.title || job.jobTitle || "—")}</td>
-        <td>${escapeHTML(job.customerEmail || job.email || "—")}</td>
-        <td>${escapeHTML(job.service || job.serviceNeeded || "—")}</td>
-        <td>$${escapeHTML(String(job.budget || "0").replace(/^\$/, ""))}</td>
-        <td>${escapeHTML(job.status || "Open")}</td>
-      </tr>
-    `;
+        alert(
+          "Could not update verification."
+        );
+      }
+    }
 
-  });
+    async function loadJobs() {
 
-  html += "</table>";
+      try {
 
-  document.getElementById("jobsTable").innerHTML =
-    html;
+        const response =
+          await fetch(
+            `${API}/admin/jobs?email=${encodeURIComponent(adminEmail)}`
+          );
 
-}
+        const jobs =
+          await response.json();
 
-function renderApplications(applications) {
+        document.getElementById("jobsCount").textContent =
+          jobs.length;
 
-  if (!applications.length) {
+        const body =
+          document.getElementById("jobsBody");
 
-    document.getElementById("applicationsTable").innerHTML =
-      '<div class="empty">No applications found.</div>';
+        body.innerHTML = "";
 
-    return;
+        jobs.forEach(job => {
 
-  }
+          const row =
+            document.createElement("tr");
 
-  let html = `
-    <table>
-      <tr>
-        <th>Job ID</th>
-        <th>Assistant</th>
-        <th>Email</th>
-        <th>Status</th>
-        <th>Applied</th>
-      </tr>
-  `;
+          row.innerHTML = `
+            <td>${job.title || "-"}</td>
+            <td>${job.customerEmail || "-"}</td>
+            <td>$${job.budget || "-"}</td>
+            <td>${job.status || "-"}</td>
+          `;
 
-  applications.forEach(application => {
+          body.appendChild(row);
 
-    html += `
-      <tr>
-        <td>${escapeHTML(String(application.jobId || "—"))}</td>
-        <td>${escapeHTML(application.assistantName || "—")}</td>
-        <td>${escapeHTML(application.assistantEmail || "—")}</td>
-        <td>${escapeHTML(application.status || "Pending")}</td>
-        <td>${formatDate(application.createdAt)}</td>
-      </tr>
-    `;
+        });
 
-  });
+        document.getElementById("jobsLoading").style.display =
+          "none";
 
-  html += "</table>";
+        document.getElementById("jobsTable").style.display =
+          "table";
 
-  document.getElementById("applicationsTable").innerHTML =
-    html;
+      } catch (error) {
 
-}
+        document.getElementById("jobsLoading").textContent =
+          "Failed to load jobs.";
 
-function renderHires(hires) {
+      }
+    }
 
-  if (!hires.length) {
+    async function loadApplications() {
 
-    document.getElementById("hiresTable").innerHTML =
-      '<div class="empty">No hires found.</div>';
+      try {
 
-    return;
+        const response =
+          await fetch(
+            `${API}/admin/applications?email=${encodeURIComponent(adminEmail)}`
+          );
 
-  }
+        const applications =
+          await response.json();
 
-  let html = `
-    <table>
-      <tr>
-        <th>Job ID</th>
-        <th>Customer</th>
-        <th>Assistant</th>
-        <th>Assistant Email</th>
-        <th>Created</th>
-      </tr>
-  `;
+        document.getElementById("applicationsCount").textContent =
+          applications.length;
 
-  hires.forEach(hire => {
+        const body =
+          document.getElementById("applicationsBody");
 
-    html += `
-      <tr>
-        <td>${escapeHTML(String(hire.jobId || "—"))}</td>
-        <td>${escapeHTML(hire.customerEmail || "—")}</td>
-        <td>${escapeHTML(hire.assistantName || "—")}</td>
-        <td>${escapeHTML(hire.assistantEmail || "—")}</td>
-        <td>${formatDate(hire.createdAt)}</td>
-      </tr>
-    `;
+        body.innerHTML = "";
 
-  });
+        applications.forEach(application => {
 
-  html += "</table>";
+          const row =
+            document.createElement("tr");
 
-  document.getElementById("hiresTable").innerHTML =
-    html;
+          row.innerHTML = `
+            <td>${application.jobTitle || "-"}</td>
+            <td>${application.assistantName || "-"}</td>
+            <td>${application.assistantEmail || "-"}</td>
+            <td>${application.status || "-"}</td>
+          `;
 
-}
+          body.appendChild(row);
 
-function formatDate(date) {
+        });
 
-  if (!date) return "—";
+        document.getElementById("applicationsLoading").style.display =
+          "none";
 
-  try {
+        document.getElementById("applicationsTable").style.display =
+          "table";
 
-    return new Date(date).toLocaleString();
+      } catch (error) {
 
-  } catch {
+        document.getElementById("applicationsLoading").textContent =
+          "Failed to load applications.";
 
-    return "—";
+      }
+    }
 
-  }
+    async function loadHires() {
 
-}
+      try {
 
-function escapeHTML(value) {
+        const response =
+          await fetch(
+            `${API}/admin/hires?email=${encodeURIComponent(adminEmail)}`
+          );
 
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+        const hires =
+          await response.json();
 
-}
+        document.getElementById("hiresCount").textContent =
+          hires.length;
 
-function logout() {
+        const body =
+          document.getElementById("hiresBody");
 
-  localStorage.removeItem(
-    "nexaassistUser"
-  );
+        body.innerHTML = "";
 
-  window.location.href =
-    "login.html";
+        hires.forEach(hire => {
 
-}
+          const row =
+            document.createElement("tr");
 
-</script>
+          row.innerHTML = `
+            <td>${hire.jobTitle || "-"}</td>
+            <td>${hire.customerEmail || "-"}</td>
+            <td>${hire.assistantEmail || "-"}</td>
+            <td>${hire.status || "-"}</td>
+          `;
+
+          body.appendChild(row);
+
+        });
+
+        document.getElementById("hiresLoading").style.display =
+          "none";
+
+        document.getElementById("hiresTable").style.display =
+          "table";
+
+      } catch (error) {
+
+        document.getElementById("hiresLoading").textContent =
+          "Failed to load hires.";
+
+      }
+    }
+
+    loadUsers();
+    loadAssistants();
+    loadJobs();
+    loadApplications();
+    loadHires();
+
+  </script>
 
 </body>
 </html>
